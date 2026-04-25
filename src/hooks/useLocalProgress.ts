@@ -30,7 +30,6 @@ export const useLocalProgress = () => {
   }, [progress]);
 
   useEffect(() => {
-    const sync = () => setProgress(readProgress());
     const sync = () => {
       const next = readProgress();
       setProgress((current) => (JSON.stringify(current) === JSON.stringify(next) ? current : next));
