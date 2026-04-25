@@ -1,0 +1,121 @@
+import { ArrowLeft, ArrowRight, CheckCircle2, XCircle } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import GlossaryTooltip from "@/components/app/GlossaryTooltip";
+import ProgressBar from "@/components/app/ProgressBar";
+import { Button } from "@/components/ui/button";
+import { boxStyles, modules } from "@/data/appData";
+import { useLocalProgress } from "@/hooks/useLocalProgress";
+
+const terms = ["Regime de bens", "Meação", "Herança", "Testamento", "Bem de família", "Pacto antenupcial", "Herdeiro necessário", "Partilha"];
+
+const renderText = (text: string) => {
+  const regex = new RegExp(`(${terms.join("|")})`, "gi");
+  return text.split(regex).map((part, index) => {
+    const term = terms.find((item) => item.toLowerCase() === part.toLowerCase());
+    return term ? <GlossaryTooltip key={`${part}-${index}`} term={term} /> : <span key={`${part}-${index}`}>{part}</span>;
+  });
+};
+
+const Modulo = () => {
+  const { moduloId } = useParams();
+  const module = modules.find((item) => item.id === Number(moduloId));
+  const { progress, completeModule } = useLocalProgress();
+  const [scroll, setScroll] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+
+  useEffect(() => {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScroll(max > 0 ? (window.scrollY / max) * 100 : 0);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  const score = useMemo(() => module?.quiz.reduce((total, question, index) => total + (answers[index] === question.correta ? 1 : 0), 0) ?? 0, [answers, module]);
+
+  if (!module) return <Navigate to="/trilha" replace />;
+
+  const next = modules.find((item) => item.id === module.id + 1);
+  const allAnswered = module.quiz.every((_, index) => answers[index]);
+
+  const finish = () => {
+    completeModule(module.id, { acertos: score, total: module.quiz.length });
+    toast.success("Módulo concluído! 🎉", { description: `Você acertou ${score} de ${module.quiz.length}.` });
+  };
+
+  return (
+    <article>
+      <div className="fixed left-0 right-0 top-16 z-30"><ProgressBar value={scroll} className="h-1 rounded-none" /></div>
+      <header className="section-pad bg-warm-gradient">
+        <div className="mx-auto max-w-3xl">
+          <Button asChild variant="ghost" className="mb-8"><Link to="/trilha"><ArrowLeft /> Voltar à trilha</Link></Button>
+          <div className="flex flex-wrap items-center gap-3 text-sm font-bold text-primary"><span>Módulo {module.id}</span><span>{module.tempo}</span></div>
+          <h1 className="mt-3 text-4xl font-bold leading-tight md:text-6xl">{module.titulo}</h1>
+          <p className="mt-5 text-lg leading-8 text-muted-foreground">{module.resumo}</p>
+        </div>
+      </header>
+      <div className="section-pad">
+        <div className="mx-auto max-w-[680px] space-y-10">
+          {module.sections.map((section) => (
+            <section key={section.titulo} className="space-y-4">
+              <h2 className="text-3xl font-bold">{section.titulo}</h2>
+              {section.paragrafos.map((paragraph) => <p key={paragraph} className="text-lg leading-8 text-foreground/85">{renderText(paragraph)}</p>)}
+              {section.box && (() => {
+                const style = boxStyles[section.box.tipo];
+                const Icon = style.icon;
+                return (
+                  <div className={`mt-5 rounded-lg border p-5 ${style.className}`}>
+                    <div className="mb-2 flex items-center gap-2 font-bold"><Icon className="h-5 w-5" /> {section.box.tipo}:</div>
+                    <p className="leading-7">{renderText(section.box.texto)}</p>
+                  </div>
+                );
+              })()}
+            </section>
+          ))}
+          <section className="rounded-lg border bg-card p-5 shadow-card">
+            <h2 className="text-3xl font-bold">Mini-quiz</h2>
+            <div className="mt-6 space-y-7">
+              {module.quiz.map((question, qIndex) => (
+                <fieldset key={question.pergunta} className="space-y-3">
+                  <legend className="font-semibold">{qIndex + 1}. {question.pergunta}</legend>
+                  <div className="grid gap-2">
+                    {question.alternativas.map((answer) => {
+                      const selected = answers[qIndex] === answer;
+                      const isCorrect = answer === question.correta;
+                      const answered = Boolean(answers[qIndex]);
+                      return (
+                        <button key={answer} type="button" onClick={() => setAnswers((prev) => ({ ...prev, [qIndex]: answer }))} className={`rounded-md border px-4 py-3 text-left text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${selected ? isCorrect ? "border-success bg-success/10" : "border-destructive bg-destructive/10" : answered && isCorrect ? "border-success/50 bg-success/5" : "bg-background hover:bg-muted"}`}>
+                          {answer}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {answers[qIndex] && (
+                    <p className={`flex items-start gap-2 text-sm ${answers[qIndex] === question.correta ? "text-success" : "text-destructive"}`}>
+                      {answers[qIndex] === question.correta ? <CheckCircle2 className="mt-0.5 h-4 w-4" /> : <XCircle className="mt-0.5 h-4 w-4" />}
+                      <span>{question.explicacao}</span>
+                    </p>
+                  )}
+                </fieldset>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-col gap-3 border-t pt-5 sm:flex-row sm:items-center sm:justify-between">
+              <p className="font-semibold">Pontuação: {score} de {module.quiz.length}</p>
+              <Button onClick={finish} disabled={!allAnswered}>Concluir módulo</Button>
+            </div>
+          </section>
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <Button asChild variant="outline"><Link to="/trilha"><ArrowLeft /> Ver todos</Link></Button>
+            {next ? <Button asChild variant="calm"><Link to={`/trilha/${next.id}`}>Próximo módulo <ArrowRight /></Link></Button> : <Button asChild variant="calm"><Link to="/progresso">Ver progresso <ArrowRight /></Link></Button>}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+export default Modulo;
