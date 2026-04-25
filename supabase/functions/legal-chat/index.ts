@@ -11,8 +11,23 @@ const allowedOrigins = new Set([
 ]);
 const fallbackOrigin = "https://id-preview--3fe2f8c6-513a-48bf-bfd4-f7cfe97b5fe4.lovable.app";
 
+const isAllowedOrigin = (origin: string | null) => {
+  if (!origin) return false;
+  if (allowedOrigins.has(origin)) return true;
+
+  try {
+    const { hostname, protocol } = new URL(origin);
+    const isHttps = protocol === "https:";
+    const isProjectPreview = hostname.includes("3fe2f8c6-513a-48bf-bfd4-f7cfe97b5fe4") && hostname.endsWith(".lovableproject.com");
+    const isPublishedLovableDomain = hostname.endsWith(".lovable.app");
+    return isHttps && (isProjectPreview || isPublishedLovableDomain);
+  } catch {
+    return false;
+  }
+};
+
 const getCorsHeaders = (origin: string | null): Record<string, string> => ({
-  "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin) ? origin : fallbackOrigin,
+  "Access-Control-Allow-Origin": isAllowedOrigin(origin) && origin ? origin : fallbackOrigin,
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Vary": "Origin",
 });
@@ -63,7 +78,8 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  if (!origin || !allowedOrigins.has(origin)) {
+  if (!isAllowedOrigin(origin)) {
+    console.warn("Blocked legal-chat request from unauthorized origin", origin);
     return new Response(JSON.stringify({ error: "Origem não autorizada." }), {
       status: 403,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
