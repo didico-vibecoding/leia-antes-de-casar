@@ -5,6 +5,30 @@ import { Button } from "@/components/ui/button";
 import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 type Answers = Record<string, string>;
+type AssetKey = "imovelAnterior" | "imovelDurante" | "investimentos" | "dividas";
+
+const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+const assetLabels: Record<AssetKey, string> = {
+  imovelAnterior: "Bens anteriores ao casamento",
+  imovelDurante: "Bens comprados durante o casamento",
+  investimentos: "Investimentos e reservas do casal",
+  dividas: "Dívidas comuns",
+};
+
+const parseCurrency = (value: string) => Number(value.replace(/\./g, "").replace(",", ".")) || 0;
+
+const calculateDivision = (regime: string, values: Record<AssetKey, string>) => {
+  const previousAssets = parseCurrency(values.imovelAnterior);
+  const sharedAssets = parseCurrency(values.imovelDurante) + parseCurrency(values.investimentos);
+  const debts = parseCurrency(values.dividas);
+  const divisibleBase = regime === "Comunhão Universal" ? previousAssets + sharedAssets - debts : regime === "Separação Total" ? sharedAssets * 0.5 - debts * 0.5 : sharedAssets - debts;
+  const spouseShare = Math.max(divisibleBase / 2, 0);
+  const protectedIndividual = regime === "Comunhão Parcial" ? previousAssets : regime === "Separação Total" ? previousAssets + sharedAssets * 0.5 : 0;
+
+  return { spouseShare, protectedIndividual, totalConsidered: previousAssets + sharedAssets - debts };
+};
+
 const steps = [
   { title: "Seu perfil", questions: [{ id: "imoveis", label: "Você tem imóveis no seu nome?", options: ["Sim", "Não"] }, { id: "empresa", label: "Você é sócio de alguma empresa?", options: ["Sim", "Não"] }, { id: "dividas", label: "Você tem dívidas relevantes?", options: ["Sim", "Não"] }] },
   { title: "Filhos e família", questions: [{ id: "filhos", label: "Você tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "filhosParceiro", label: "Seu parceiro(a) tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "heranca", label: "Há herança ou bens recebidos por doação que você quer proteger?", options: ["Sim", "Não"] }] },
@@ -14,6 +38,8 @@ const steps = [
 const Simulador = () => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
+  const [selectedRegime, setSelectedRegime] = useState("Comunhão Parcial");
+  const [assetValues, setAssetValues] = useState<Record<AssetKey, string>>({ imovelAnterior: "", imovelDurante: "", investimentos: "", dividas: "" });
   const { saveSimulator } = useLocalProgress();
   const current = steps[step];
   const canAdvance = step >= steps.length || current.questions.every((q) => answers[q.id]);
@@ -33,6 +59,7 @@ const Simulador = () => {
   ];
 
   const showResult = step === 3;
+  const division = calculateDivision(selectedRegime, assetValues);
 
   return (
     <section className="section-pad">
@@ -81,6 +108,39 @@ const Simulador = () => {
                   </article>
                 );
               })}
+            </div>
+            <div className="rounded-lg border bg-card p-5 shadow-card">
+              <div className="mb-6 max-w-2xl">
+                <p className="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-primary">Calculadora de bens</p>
+                <h2 className="text-3xl font-bold">Simule uma divisão patrimonial aproximada.</h2>
+                <p className="mt-3 text-muted-foreground">Informe valores estimados e escolha um regime para visualizar uma divisão educativa, sem valor jurídico.</p>
+              </div>
+              <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+                <div className="space-y-4">
+                  <label className="grid gap-2 font-semibold">
+                    Regime escolhido pelo casal
+                    <select value={selectedRegime} onChange={(event) => setSelectedRegime(event.target.value)} className="rounded-md border border-input bg-background px-3 py-2 text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                      {regimes.map((regime) => <option key={regime.name}>{regime.name}</option>)}
+                    </select>
+                  </label>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {(Object.keys(assetLabels) as AssetKey[]).map((key) => (
+                      <label key={key} className="grid gap-2 text-sm font-semibold">
+                        {assetLabels[key]}
+                        <input inputMode="decimal" placeholder="Ex: 150000" value={assetValues[key]} onChange={(event) => setAssetValues((prev) => ({ ...prev, [key]: event.target.value }))} className="rounded-md border border-input bg-background px-3 py-2 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-lg bg-muted p-5">
+                  <p className="text-sm font-bold uppercase tracking-[0.18em] text-secondary">Resultado estimado</p>
+                  <div className="mt-5 space-y-4">
+                    <div><p className="text-sm text-muted-foreground">Parte aproximada de cada cônjuge</p><p className="text-3xl font-bold text-primary">{currencyFormatter.format(division.spouseShare)}</p></div>
+                    <div><p className="text-sm text-muted-foreground">Valor preservado como individual nesta simulação</p><p className="text-2xl font-bold">{currencyFormatter.format(division.protectedIndividual)}</p></div>
+                    <div><p className="text-sm text-muted-foreground">Patrimônio líquido considerado</p><p className="text-xl font-bold">{currencyFormatter.format(Math.max(division.totalConsidered, 0))}</p></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="sticky bottom-4 rounded-lg border bg-card p-4 shadow-soft">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

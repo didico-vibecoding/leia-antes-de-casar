@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle2, CircleDashed } from "lucide-react";
+import { ArrowRight, CheckCircle2, CircleDashed, RotateCcw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { modules } from "@/data/appData";
@@ -6,14 +6,24 @@ import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 const Trilha = () => {
   const { progress } = useLocalProgress();
+  const nextModule = modules.find((module) => !progress.modulosConcluidos.includes(module.id)) ?? modules[0];
+  const completedCount = progress.modulosConcluidos.length;
 
   return (
     <section className="section-pad">
       <div className="content-wrap">
-        <div className="mb-10 max-w-3xl">
-          <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-primary">Trilha de Consciência</p>
-          <h1 className="text-4xl font-bold md:text-6xl">Cinco conversas essenciais antes do casamento.</h1>
-          <p className="mt-4 text-lg leading-8 text-muted-foreground">Leia no seu ritmo, responda quizzes rápidos e salve seu progresso.</p>
+        <div className="mb-10 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="max-w-3xl">
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-primary">Trilha de Consciência</p>
+            <h1 className="text-4xl font-bold md:text-6xl">Cinco conversas essenciais antes do casamento.</h1>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">Leia no seu ritmo, responda quizzes rápidos e salve seu progresso.</p>
+          </div>
+          <Button asChild variant="hero" className="w-full sm:w-auto">
+            <Link to={`/trilha/${nextModule.id}`}>
+              <RotateCcw />
+              {completedCount > 0 ? "Continuar de onde parei" : "Começar trilha"}
+            </Link>
+          </Button>
         </div>
         <div className="grid gap-4">
           {modules.map((module) => {
