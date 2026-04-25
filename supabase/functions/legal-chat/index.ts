@@ -1,8 +1,43 @@
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+const allowedOrigins = new Set([
+  "https://id-preview--3fe2f8c6-513a-48bf-bfd4-f7cfe97b5fe4.lovable.app",
+  "https://3fe2f8c6-513a-48bf-bfd4-f7cfe97b5fe4.lovable.app",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+]);
+
+const getCorsHeaders = (origin: string | null) => ({
+  "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin) ? origin : allowedOrigins.values().next().value,
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Vary": "Origin",
+});
+
+const requestCounts = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 30;
+
+const getClientKey = (req: Request) =>
+  req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  req.headers.get("cf-connecting-ip") ||
+  req.headers.get("x-real-ip") ||
+  "unknown";
+
+const isRateLimited = (key: string) => {
+  const now = Date.now();
+  const current = requestCounts.get(key);
+
+  if (!current || current.resetAt <= now) {
+    requestCounts.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  if (current.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return true;
+  }
+
+  current.count += 1;
+  return false;
 };
 
 type ChatMessage = {
@@ -17,8 +52,25 @@ const isValidMessage = (message: unknown): message is ChatMessage => {
 };
 
 serve(async (req) => {
+  const origin = req.headers.get("Origin");
+  const corsHeaders = getCorsHeaders(origin);
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  if (!origin || !allowedOrigins.has(origin)) {
+    return new Response(JSON.stringify({ error: "Origem não autorizada." }), {
+      status: 403,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  if (isRateLimited(getClientKey(req))) {
+    return new Response(JSON.stringify({ error: "Muitas perguntas em sequência. Tente novamente mais tarde." }), {
+      status: 429,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 
   try {
@@ -69,7 +121,11 @@ serve(async (req) => {
         });
       }
       const errorText = await response.text();
-      throw new Error(`Falha no gateway de IA [${response.status}]: ${errorText}`);
+      console.error("AI gateway error", response.status, errorText);
+      return new Response(JSON.stringify({ error: "Serviço temporariamente indisponível. Tente novamente." }), {
+        status: 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const data = await response.json();
@@ -80,7 +136,7 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("legal-chat error", error);
-    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Erro inesperado." }), {
+    return new Response(JSON.stringify({ error: "Erro inesperado. Tente novamente em instantes." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
