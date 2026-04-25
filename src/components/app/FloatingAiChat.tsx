@@ -94,9 +94,9 @@ const FloatingAiChat = () => {
                   message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
                 )}
               >
-                <ReactMarkdown className="prose prose-sm max-w-none prose-p:m-0 prose-strong:text-inherit">
-                  {message.content}
-                </ReactMarkdown>
+                <div className="prose prose-sm max-w-none prose-p:m-0 prose-strong:text-inherit">
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                </div>
               </div>
             </div>
           ))}
