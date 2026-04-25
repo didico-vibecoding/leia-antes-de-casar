@@ -9,9 +9,10 @@ const allowedOrigins = new Set([
   "http://localhost:5173",
   "http://127.0.0.1:5173",
 ]);
+const fallbackOrigin = "https://id-preview--3fe2f8c6-513a-48bf-bfd4-f7cfe97b5fe4.lovable.app";
 
-const getCorsHeaders = (origin: string | null) => ({
-  "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin) ? origin : allowedOrigins.values().next().value,
+const getCorsHeaders = (origin: string | null): Record<string, string> => ({
+  "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin) ? origin : fallbackOrigin,
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Vary": "Origin",
 });
