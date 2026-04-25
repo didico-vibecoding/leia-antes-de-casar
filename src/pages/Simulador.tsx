@@ -5,6 +5,30 @@ import { Button } from "@/components/ui/button";
 import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 type Answers = Record<string, string>;
+type AssetKey = "imovelAnterior" | "imovelDurante" | "investimentos" | "dividas";
+
+const currencyFormatter = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+
+const assetLabels: Record<AssetKey, string> = {
+  imovelAnterior: "Bens anteriores ao casamento",
+  imovelDurante: "Bens comprados durante o casamento",
+  investimentos: "Investimentos e reservas do casal",
+  dividas: "Dívidas comuns",
+};
+
+const parseCurrency = (value: string) => Number(value.replace(/\./g, "").replace(",", ".")) || 0;
+
+const calculateDivision = (regime: string, values: Record<AssetKey, string>) => {
+  const previousAssets = parseCurrency(values.imovelAnterior);
+  const sharedAssets = parseCurrency(values.imovelDurante) + parseCurrency(values.investimentos);
+  const debts = parseCurrency(values.dividas);
+  const divisibleBase = regime === "Comunhão Universal" ? previousAssets + sharedAssets - debts : regime === "Separação Total" ? sharedAssets * 0.5 - debts * 0.5 : sharedAssets - debts;
+  const spouseShare = Math.max(divisibleBase / 2, 0);
+  const protectedIndividual = regime === "Comunhão Parcial" ? previousAssets : regime === "Separação Total" ? previousAssets + sharedAssets * 0.5 : 0;
+
+  return { spouseShare, protectedIndividual, totalConsidered: previousAssets + sharedAssets - debts };
+};
+
 const steps = [
   { title: "Seu perfil", questions: [{ id: "imoveis", label: "Você tem imóveis no seu nome?", options: ["Sim", "Não"] }, { id: "empresa", label: "Você é sócio de alguma empresa?", options: ["Sim", "Não"] }, { id: "dividas", label: "Você tem dívidas relevantes?", options: ["Sim", "Não"] }] },
   { title: "Filhos e família", questions: [{ id: "filhos", label: "Você tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "filhosParceiro", label: "Seu parceiro(a) tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "heranca", label: "Há herança ou bens recebidos por doação que você quer proteger?", options: ["Sim", "Não"] }] },
