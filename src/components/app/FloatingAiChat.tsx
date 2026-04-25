@@ -42,6 +42,7 @@ const FloatingAiChat = () => {
     setIsLoading(false);
 
     if (error || !data?.answer) {
+      console.warn("Sofia chat request failed", { error, response: data });
       toast.error("Não consegui responder agora", { description: "Tente novamente em alguns instantes." });
       setMessages([...nextMessages, { role: "assistant", content: "Tive uma instabilidade ao responder. Pode tentar de novo?" }]);
       return;
