@@ -64,6 +64,17 @@ type ChatMessage = {
   content: string;
 };
 
+const firstResponseIntro = "Oi, eu sou a Sofia! Antes de começar, dois avisos rápidos:";
+const firstResponseNotice = "⚠️ Minhas respostas são educativas e não substituem a orientação de um advogado.\n\n🔒 Seus dados são tratados com sigilo e em conformidade com a LGPD.";
+
+const splitFirstResponse = (answer: string) => {
+  const marker = "Agora me conta —";
+  const markerIndex = answer.indexOf(marker);
+  const question = markerIndex >= 0 ? answer.slice(markerIndex + marker.length).trim() : answer.trim();
+
+  return [firstResponseIntro, firstResponseNotice, question || "Como posso te ajudar com essa dúvida sobre casamento?" ];
+};
+
 const isValidMessage = (message: unknown): message is ChatMessage => {
   if (!message || typeof message !== "object") return false;
   const value = message as Record<string, unknown>;
@@ -151,7 +162,7 @@ serve(async (req) => {
     const data = await response.json();
     const answer = data?.choices?.[0]?.message?.content ?? "Não consegui formular uma resposta agora.";
 
-    return new Response(JSON.stringify({ answer }), {
+    return new Response(JSON.stringify(isFirstUserMessage ? { answer, answerParts: splitFirstResponse(answer) } : { answer }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
