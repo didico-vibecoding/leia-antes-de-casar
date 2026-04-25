@@ -26,7 +26,7 @@ const FloatingAiChat = () => {
     {
       role: "assistant",
       content:
-        "Olá! Posso ajudar com dúvidas gerais sobre casamento civil, regimes de bens, checklist e herança. Minhas respostas são educativas e não substituem um advogado.",
+        "Oi! Eu sou a Sofia, sua assistente aqui no Antes do Sim. Estou aqui para te ajudar a entender melhor o lado jurídico do casamento, de um jeito simples e sem complicação.",
     },
   ]);
 
@@ -76,7 +76,7 @@ const FloatingAiChat = () => {
               <Sparkles className="h-4 w-4" />
             </span>
             <div>
-              <p className="font-serif text-base font-bold">Assistente jurídico</p>
+              <p className="font-serif text-base font-bold">Sofia</p>
               <p className="text-xs text-muted-foreground">Dúvidas rápidas, sem juridiquês</p>
             </div>
           </div>
@@ -104,17 +104,30 @@ const FloatingAiChat = () => {
         </div>
 
         {messages.length === 1 && (
-          <div className="flex flex-wrap gap-2 border-t px-4 py-3">
-            {suggestedQuestions.map((question) => (
-              <button
-                key={question}
-                type="button"
-                className="rounded-md border bg-background px-2.5 py-1.5 text-left text-xs font-medium text-foreground transition-colors hover:bg-muted"
-                onClick={() => void sendMessage(question)}
-              >
-                {question}
-              </button>
-            ))}
+          <div className="space-y-3 border-t px-4 py-3">
+            <div className="rounded-md border bg-muted p-3 text-xs leading-relaxed text-muted-foreground">
+              <p className="font-medium text-foreground">⚠️ Aviso importante</p>
+              <p className="mt-1">
+                As respostas da Sofia têm fins exclusivamente educativos e informacionais. Elas não substituem a orientação de um advogado. Para decisões jurídicas sobre sua situação específica, consulte sempre um profissional habilitado.
+              </p>
+              <p className="mt-3 font-medium text-foreground">🔒 Privacidade</p>
+              <p className="mt-1">
+                Caso você compartilhe informações pessoais neste chat, elas são tratadas com total sigilo e em conformidade com a Lei Geral de Proteção de Dados (LGPD). Seus dados não são armazenados nem compartilhados com terceiros.
+              </p>
+            </div>
+            <p className="text-sm text-foreground">Me conta — vocês já têm uma data em mente para o casamento, ou ainda estão na fase de planejamento?</p>
+            <div className="flex flex-wrap gap-2">
+              {suggestedQuestions.map((question) => (
+                <button
+                  key={question}
+                  type="button"
+                  className="rounded-md border bg-background px-2.5 py-1.5 text-left text-xs font-medium text-foreground transition-colors hover:bg-muted"
+                  onClick={() => void sendMessage(question)}
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
