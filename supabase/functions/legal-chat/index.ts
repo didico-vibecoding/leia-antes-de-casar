@@ -34,7 +34,7 @@ serve(async (req) => {
 
     const apiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!apiKey) throw new Error("LOVABLE_API_KEY não está configurada.");
-    const isFirstUserMessage = messages.filter((message) => message.role === "user").length === 1;
+    const isFirstUserMessage = messages.filter((message: ChatMessage) => message.role === "user").length === 1;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
