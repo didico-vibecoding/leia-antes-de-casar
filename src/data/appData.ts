@@ -1,4 +1,4 @@
-import { Baby, Balance, Banknote, BookOpen, CheckSquare, CircleDollarSign, FileHeart, Gavel, HeartHandshake, Home, Landmark, Scale, ScrollText, Shield, Sparkles } from "lucide-react";
+import { Baby, Banknote, BookOpen, CheckSquare, CircleDollarSign, FileHeart, Gavel, HeartHandshake, Home, Landmark, Scale, ScrollText, Shield, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export type GlossaryTerm = { termo: string; definicao: string; exemplo: string };
@@ -119,7 +119,7 @@ export const modules: ModuleData[] = [
 
 export const checklistCategories = [
   { id: "documentacao", title: "Documentação e cartório", icon: FileHeart, items: ["Verificar documentos necessários para habilitação no cartório (RG, CPF, certidão de nascimento)", "Dar entrada na habilitação com pelo menos 30 dias de antecedência", "Definir o regime de bens", "Se for Separação Total: fazer pacto antenupcial com advogado antes do casamento"] },
-  { id: "juridicas", title: "Questões jurídicas", icon: Balance, items: ["Consultar um advogado de família (especialmente se há empresa, imóvel ou filhos de outra relação)", "Conversar com o parceiro(a) sobre o que acontece com os bens em caso de separação", "Verificar se há necessidade de testamento", "Atualizar beneficiários de planos de previdência privada e seguros de vida"] },
+  { id: "juridicas", title: "Questões jurídicas", icon: Scale, items: ["Consultar um advogado de família (especialmente se há empresa, imóvel ou filhos de outra relação)", "Conversar com o parceiro(a) sobre o que acontece com os bens em caso de separação", "Verificar se há necessidade de testamento", "Atualizar beneficiários de planos de previdência privada e seguros de vida"] },
   { id: "financeiras", title: "Questões financeiras", icon: Banknote, items: ["Decidir se o IR será feito em conjunto ou separado", "Conversar sobre contas conjuntas ou separadas", "Alinhar com parceiro(a) sobre dívidas existentes de cada um", "Verificar como fica o INSS/benefícios previdenciários"] },
   { id: "patrimonio", title: "Patrimônio", icon: Home, items: ["Registrar imóveis corretamente se for comprar junto", "Entender como ficam imóveis já existentes no novo regime"] },
 ];
