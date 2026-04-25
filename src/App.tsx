@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import FloatingAiChat from "./components/app/FloatingAiChat";
 import AppLayout from "./layout/AppLayout";
 import Checklist from "./pages/Checklist";
-import ConsultaAudio from "./pages/ConsultaAudio";
 import Glossario from "./pages/Glossario";
 import Index from "./pages/Index";
 import Modulo from "./pages/Modulo";
@@ -29,7 +28,6 @@ const App = () => (
             <Route path="/trilha" element={<Trilha />} />
             <Route path="/trilha/:moduloId" element={<Modulo />} />
             <Route path="/simulador" element={<Simulador />} />
-            <Route path="/consulta" element={<ConsultaAudio />} />
             <Route path="/checklist" element={<Checklist />} />
             <Route path="/glossario" element={<Glossario />} />
             <Route path="/progresso" element={<Progresso />} />

@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 const links = [
   { to: "/trilha", label: "Trilha" },
   { to: "/simulador", label: "Simulador" },
-  { to: "/consulta", label: "Consulta por áudio" },
   { to: "/checklist", label: "Checklist" },
   { to: "/glossario", label: "Glossário" },
 ];
