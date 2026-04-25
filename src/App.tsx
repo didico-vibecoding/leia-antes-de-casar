@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import FloatingAiChat from "./components/app/FloatingAiChat";
 import AppLayout from "./layout/AppLayout";
 import Checklist from "./pages/Checklist";
 import Glossario from "./pages/Glossario";
@@ -33,6 +34,7 @@ const App = () => (
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <FloatingAiChat />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
