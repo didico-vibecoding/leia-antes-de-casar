@@ -1,36 +1,44 @@
-## Diagnóstico
+## Plano de ajuste
 
-O chat da Sofia funciona no ambiente de preview, mas pode falhar no app publicado por causa de uma diferença de domínio/origem. O código atual da função `legal-chat` tem uma lista fixa de URLs permitidas. Se o domínio publicado acessado pelo usuário não estiver exatamente nessa lista, a função retorna erro e o front mostra a mensagem genérica de instabilidade.
+Vou fazer apenas o ajuste pontual no chatbot da Sofia para que a primeira resposta deixe de aparecer como um único bloco e passe a ser exibida em três blocos/balões separados.
 
-Também identifiquei um problema separado no console: um loop de atualização em `useLocalProgress.ts`. Ele não parece ser a causa direta do erro do chatbot, mas pode afetar estabilidade/performance da página e vale corrigir junto.
+## O que será alterado
 
-## Plano de correção
+1. Ajustar o contrato de resposta do chat
+   - Permitir que a função `legal-chat` retorne, na primeira interação, a resposta dividida em partes.
+   - Manter a compatibilidade com respostas normais em mensagens seguintes.
 
-1. Ajustar a função do chatbot `legal-chat`
-   - Manter o uso da IA nativa do Lovable já configurada.
-   - Tornar a validação de origem mais robusta para aceitar corretamente:
-     - preview do projeto;
-     - domínio publicado `bem-casado-consciente.lovable.app`;
-     - domínio atual do projeto em `lovableproject.com`;
-     - eventuais variações seguras do próprio projeto.
-   - Manter as proteções já adicionadas: CORS, validação de mensagens, limite de uso e tratamento seguro de erros.
-   - Melhorar a mensagem técnica retornada ao front quando o backend recusar uma origem, sem expor detalhes sensíveis ao usuário final.
+2. Separar a primeira resposta em 3 blocos
+   - Bloco 1:
+     ```text
+     Oi, eu sou a Sofia! Antes de começar, dois avisos rápidos:
+     ```
+   - Bloco 2:
+     ```text
+     ⚠️ Minhas respostas são educativas e não substituem a orientação de um advogado.
 
-2. Ajustar o front do chatbot apenas no tratamento de erro
-   - Preservar toda a interface e personalidade da Sofia.
-   - Quando a função retornar erro conhecido, continuar mostrando uma mensagem amigável, mas registrar melhor o erro no console para facilitar diagnóstico futuro.
-   - Não alterar sugestões, layout, prompt, nem fluxo conversacional.
+     🔒 Seus dados são tratados com sigilo e em conformidade com a LGPD.
+     ```
+   - Bloco 3:
+     ```text
+     [Pergunta específica da Sofia relacionada ao que a pessoa enviou]
+     ```
 
-3. Corrigir o loop detectado em `useLocalProgress.ts`
-   - Evitar que o próprio hook dispare e reaja ao mesmo evento continuamente.
-   - Manter o progresso local funcionando normalmente.
-   - Essa correção reduz ruído no console e evita instabilidade geral após publicar.
+3. Ajustar a interface do chat
+   - Quando a resposta vier dividida, renderizar cada parte como uma mensagem/balão separado da Sofia.
+   - Preservar o comportamento atual das sugestões, campo de texto, loading e mensagens seguintes.
 
-4. Validar depois da implementação
-   - Fazer checagem de tipos/build.
-   - Testar a função `legal-chat` diretamente com uma mensagem simples como `oi`.
-   - Verificar se a resposta da Sofia mantém o formato da primeira interação e o contexto jurídico do app Antes do Sim.
+4. Preservar tudo que já existe
+   - Nome Sofia.
+   - Tom acolhedor e educativo.
+   - Uso da IA nativa do Lovable.
+   - Foco em aspectos jurídicos do casamento no Brasil.
+   - Recusa gentil para temas fora do escopo.
+   - Sugestão de módulos, simulador, checklist e glossário quando relevante.
+   - Nenhuma alteração em outras partes do app.
 
-## Resultado esperado
+## Detalhes técnicos
 
-Após a correção, o chatbot deve responder normalmente no app publicado e no preview, sem depender de serviço externo configurado manualmente, mantendo exatamente o comportamento da Sofia já definido.
+- Em `supabase/functions/legal-chat/index.ts`, ajustarei o retorno para incluir uma lista de partes da resposta quando for a primeira mensagem do usuário.
+- Em `src/components/app/FloatingAiChat.tsx`, ajustarei a leitura do retorno para aceitar `answerParts` e inserir cada parte como um balão separado.
+- Caso a função retorne apenas `answer`, o frontend continuará funcionando como hoje.

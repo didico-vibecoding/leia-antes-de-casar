@@ -41,14 +41,18 @@ const FloatingAiChat = () => {
 
     setIsLoading(false);
 
-    if (error || !data?.answer) {
+    if (error || (!data?.answer && !data?.answerParts)) {
       console.warn("Sofia chat request failed", { error, response: data });
       toast.error("Não consegui responder agora", { description: "Tente novamente em alguns instantes." });
       setMessages([...nextMessages, { role: "assistant", content: "Tive uma instabilidade ao responder. Pode tentar de novo?" }]);
       return;
     }
 
-    setMessages([...nextMessages, { role: "assistant", content: data.answer }]);
+    const assistantMessages: ChatMessage[] = Array.isArray(data.answerParts)
+      ? data.answerParts.filter(Boolean).map((content: string) => ({ role: "assistant", content }))
+      : [{ role: "assistant", content: data.answer }];
+
+    setMessages([...nextMessages, ...assistantMessages]);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
