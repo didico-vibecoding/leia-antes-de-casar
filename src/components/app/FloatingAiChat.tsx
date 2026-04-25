@@ -13,22 +13,16 @@ type ChatMessage = {
 };
 
 const suggestedQuestions = [
-  "Qual regime protege melhor meus bens?",
+  "Qual regime de bens é melhor para o meu caso?",
   "O que é pacto antenupcial?",
-  "Como funciona a comunhão parcial?",
+  "Como funciona a comunhão parcial de bens?",
 ];
 
 const FloatingAiChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      role: "assistant",
-      content:
-        "Oi! Eu sou a Sofia, sua assistente aqui no Antes do Sim. Estou aqui para te ajudar a entender melhor o lado jurídico do casamento, de um jeito simples e sem complicação.",
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const recentMessages = useMemo(() => messages.slice(-8), [messages]);
 
@@ -85,51 +79,43 @@ const FloatingAiChat = () => {
           </Button>
         </div>
 
-        <div className="max-h-[22rem] space-y-3 overflow-y-auto px-4 py-4">
-          {messages.map((message, index) => (
-            <div key={`${message.role}-${index}`} className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}>
-              <div
-                className={cn(
-                  "max-w-[86%] rounded-lg px-3 py-2 text-sm leading-relaxed",
-                  message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
-                )}
-              >
-                <div className="prose prose-sm max-w-none prose-p:m-0 prose-strong:text-inherit">
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
-                </div>
+        <div className="max-h-[22rem] min-h-[16rem] space-y-3 overflow-y-auto px-4 py-4">
+          {messages.length === 0 ? (
+            <div className="flex min-h-[14rem] flex-col items-center justify-center gap-4 text-center">
+              <p className="max-w-xs text-sm font-medium leading-relaxed text-foreground">
+                Olá! Digite sua dúvida ou escolha uma das perguntas abaixo.
+              </p>
+              <div className="flex w-full flex-col gap-2">
+                {suggestedQuestions.map((question) => (
+                  <button
+                    key={question}
+                    type="button"
+                    className="rounded-md border bg-background px-3 py-2 text-left text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                    onClick={() => void sendMessage(question)}
+                  >
+                    {question}
+                  </button>
+                ))}
               </div>
             </div>
-          ))}
+          ) : (
+            messages.map((message, index) => (
+              <div key={`${message.role}-${index}`} className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}>
+                <div
+                  className={cn(
+                    "max-w-[86%] rounded-lg px-3 py-2 text-sm leading-relaxed",
+                    message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
+                  )}
+                >
+                  <div className="prose prose-sm max-w-none prose-p:m-0 prose-strong:text-inherit">
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
           {isLoading && <p className="text-sm text-muted-foreground">Pensando com cuidado...</p>}
         </div>
-
-        {messages.length === 1 && (
-          <div className="space-y-3 border-t px-4 py-3">
-            <div className="rounded-md border bg-muted p-3 text-xs leading-relaxed text-muted-foreground">
-              <p className="font-medium text-foreground">⚠️ Aviso importante</p>
-              <p className="mt-1">
-                As respostas da Sofia têm fins exclusivamente educativos e informacionais. Elas não substituem a orientação de um advogado. Para decisões jurídicas sobre sua situação específica, consulte sempre um profissional habilitado.
-              </p>
-              <p className="mt-3 font-medium text-foreground">🔒 Privacidade</p>
-              <p className="mt-1">
-                Caso você compartilhe informações pessoais neste chat, elas são tratadas com total sigilo e em conformidade com a Lei Geral de Proteção de Dados (LGPD). Seus dados não são armazenados nem compartilhados com terceiros.
-              </p>
-            </div>
-            <p className="text-sm text-foreground">Me conta — vocês já têm uma data em mente para o casamento, ou ainda estão na fase de planejamento?</p>
-            <div className="flex flex-wrap gap-2">
-              {suggestedQuestions.map((question) => (
-                <button
-                  key={question}
-                  type="button"
-                  className="rounded-md border bg-background px-2.5 py-1.5 text-left text-xs font-medium text-foreground transition-colors hover:bg-muted"
-                  onClick={() => void sendMessage(question)}
-                >
-                  {question}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className="border-t bg-background p-3">
           <label htmlFor="ai-chat-message" className="sr-only">Digite sua dúvida</label>
@@ -138,7 +124,7 @@ const FloatingAiChat = () => {
               id="ai-chat-message"
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              placeholder="Digite sua dúvida..."
+              placeholder="Digite sua dúvida aqui..."
               className="min-h-11 resize-none"
               rows={1}
             />
