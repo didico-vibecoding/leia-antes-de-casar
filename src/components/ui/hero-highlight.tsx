@@ -1,6 +1,8 @@
-import React from "react";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+"use client";
+
 import { cn } from "@/lib/utils";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import React from "react";
 
 export const HeroHighlight = ({
   children,
@@ -28,23 +30,39 @@ export const HeroHighlight = ({
 
   return (
     <div
-      className={cn("group relative flex min-h-[28rem] w-full items-center justify-center overflow-hidden bg-background", containerClassName)}
+      className={cn(
+        "relative flex min-h-[calc(100vh-5rem)] w-full items-center justify-center overflow-hidden bg-background",
+        containerClassName,
+      )}
       onMouseMove={handleMouseMove}
     >
-      <div className="pointer-events-none absolute inset-0 opacity-35" style={dotPattern("hsl(var(--muted-foreground) / 0.32)")} />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-40"
+        style={dotPattern("hsl(var(--foreground) / 0.22)")}
+      />
+
       <motion.div
         className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
         style={{
-          background: useMotionTemplate`
+          ...dotPattern("hsl(var(--primary))"),
+          WebkitMaskImage: useMotionTemplate`
             radial-gradient(
-              380px circle at ${mouseX}px ${mouseY}px,
-              hsl(var(--primary) / 0.18),
-              transparent 80%
+              220px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
+            )
+          `,
+          maskImage: useMotionTemplate`
+            radial-gradient(
+              220px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
             )
           `,
         }}
       />
-      <div className={cn("relative z-10 mx-auto w-full max-w-5xl px-4", className)}>{children}</div>
+
+      <div className={cn("relative z-20 w-full", className)}>{children}</div>
     </div>
   );
 };
@@ -52,14 +70,26 @@ export const HeroHighlight = ({
 export const Highlight = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (
     <motion.span
-      initial={{ backgroundSize: "0% 100%" }}
-      animate={{ backgroundSize: "100% 100%" }}
-      transition={{ duration: 1, ease: "easeInOut" }}
+      initial={{
+        backgroundSize: "0% 100%",
+      }}
+      animate={{
+        backgroundSize: "100% 100%",
+      }}
+      transition={{
+        duration: 1.4,
+        ease: "linear",
+        delay: 0.4,
+      }}
+      style={{
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "left center",
+        display: "inline",
+      }}
       className={cn(
-        "relative inline-block rounded-sm bg-gradient-to-r from-accent to-accent bg-no-repeat px-1 pb-1 text-accent-foreground",
+        "relative inline-block rounded-lg bg-gradient-to-r from-primary/25 to-accent/40 px-2 pb-1 text-foreground",
         className,
       )}
-      style={{ backgroundPosition: "left bottom" }}
     >
       {children}
     </motion.span>
