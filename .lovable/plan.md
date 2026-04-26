@@ -1,44 +1,61 @@
-## Plano de ajuste
+## Plano de integração do HeroHighlight
 
-Vou fazer apenas o ajuste pontual no chatbot da Sofia para que a primeira resposta deixe de aparecer como um único bloco e passe a ser exibida em três blocos/balões separados.
+O projeto já suporta a estrutura necessária:
+- React + TypeScript com Vite
+- Tailwind CSS configurado em `tailwind.config.ts` e `src/index.css`
+- shadcn/ui configurado em `components.json`
+- Alias `@/` apontando para `src/`
+- Caminho padrão de componentes UI: `src/components/ui`, que corresponde ao import `@/components/ui/...`
 
-## O que será alterado
+## O que será feito
 
-1. Ajustar o contrato de resposta do chat
-   - Permitir que a função `legal-chat` retorne, na primeira interação, a resposta dividida em partes.
-   - Manter a compatibilidade com respostas normais em mensagens seguintes.
+1. Instalar a dependência necessária
+   - Adicionar `framer-motion` ao projeto.
 
-2. Separar a primeira resposta em 3 blocos
-   - Bloco 1:
-     ```text
-     Oi, eu sou a Sofia! Antes de começar, dois avisos rápidos:
-     ```
-   - Bloco 2:
-     ```text
-     ⚠️ Minhas respostas são educativas e não substituem a orientação de um advogado.
+2. Criar o componente UI
+   - Criar `src/components/ui/hero-highlight.tsx`.
+   - Adaptar o código fornecido para funcionar corretamente neste projeto Vite/React.
+   - Manter o uso de `cn` de `@/lib/utils`.
+   - Usar `motion`, `useMotionValue` e `useMotionTemplate` do `framer-motion`.
+   - Remover a diretiva `"use client"`, pois ela é específica de Next.js e não é necessária neste app.
 
-     🔒 Seus dados são tratados com sigilo e em conformidade com a LGPD.
-     ```
-   - Bloco 3:
-     ```text
-     [Pergunta específica da Sofia relacionada ao que a pessoa enviou]
-     ```
+3. Corrigir o JSX do componente fornecido
+   - O trecho enviado veio com partes de marcação omitidas/quebradas.
+   - Vou reconstruir a estrutura visual do `HeroHighlight` com:
+     - container relativo com overflow oculto;
+     - fundo com padrão pontilhado;
+     - efeito radial acompanhando o mouse;
+     - wrapper central para `children`;
+     - componente `Highlight` com destaque visual animado.
 
-3. Ajustar a interface do chat
-   - Quando a resposta vier dividida, renderizar cada parte como uma mensagem/balão separado da Sofia.
-   - Preservar o comportamento atual das sugestões, campo de texto, loading e mensagens seguintes.
+4. Adicionar um demo opcional no lugar correto
+   - Criar um componente de demonstração em `src/components/app/HeroHighlightDemo.tsx` ou usar diretamente onde fizer sentido.
+   - Como você pediu integração de componente existente, vou manter o app sem mudança visual ampla, a menos que seja desejado aplicar o HeroHighlight na tela inicial.
+   - Se aplicado na home, será apenas no hero principal de `src/pages/Index.tsx`, preservando o conteúdo atual do app.
 
-4. Preservar tudo que já existe
-   - Nome Sofia.
-   - Tom acolhedor e educativo.
-   - Uso da IA nativa do Lovable.
-   - Foco em aspectos jurídicos do casamento no Brasil.
-   - Recusa gentil para temas fora do escopo.
-   - Sugestão de módulos, simulador, checklist e glossário quando relevante.
-   - Nenhuma alteração em outras partes do app.
+5. Validar a integração
+   - Rodar verificação de TypeScript/build para confirmar que imports e tipos estão corretos.
 
-## Detalhes técnicos
+## Observações técnicas
 
-- Em `supabase/functions/legal-chat/index.ts`, ajustarei o retorno para incluir uma lista de partes da resposta quando for a primeira mensagem do usuário.
-- Em `src/components/app/FloatingAiChat.tsx`, ajustarei a leitura do retorno para aceitar `answerParts` e inserir cada parte como um balão separado.
-- Caso a função retorne apenas `answer`, o frontend continuará funcionando como hoje.
+- Não será necessário criar `/components/ui` na raiz, porque neste projeto o padrão shadcn está configurado como `src/components/ui` via alias `@/components/ui`.
+- O componente não exige imagens, assets externos, contexto global ou provider adicional.
+- O componente aceita apenas:
+  - `children`
+  - `className`
+  - `containerClassName`
+- Nenhum ícone ou imagem Unsplash é necessário para este componente específico.
+
+## Resultado esperado
+
+Ao aprovar, o projeto terá o componente `HeroHighlight` disponível em:
+
+```text
+src/components/ui/hero-highlight.tsx
+```
+
+E ele poderá ser usado assim:
+
+```tsx
+import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
+```
