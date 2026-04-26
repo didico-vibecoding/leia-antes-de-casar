@@ -1,4 +1,4 @@
-import { ArrowRight, Heart, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import ProgressBar from "@/components/app/ProgressBar";
@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { featureCards, modules } from "@/data/appData";
 import { useLocalProgress } from "@/hooks/useLocalProgress";
+import weddingRingsImage from "@/assets/gold-wedding-rings-approaching.png";
 
 const Index = () => {
   const { progress } = useLocalProgress();
@@ -65,15 +66,17 @@ const Index = () => {
             )}
           </motion.div>
 
-          <div className="relative flex min-h-[360px] items-center justify-center">
-            <div className="absolute inset-8 rounded-full border border-primary/20 bg-card/35 blur-3xl" />
+          <div className="relative flex min-h-[360px] items-center justify-center lg:min-h-[460px]">
+            <div className="absolute inset-x-8 bottom-8 top-16 rounded-full border border-primary/20 bg-card/35 blur-3xl" />
 
-            <div className="relative flex aspect-square w-full max-w-md animate-float items-center justify-center rounded-full border bg-card/70 shadow-soft backdrop-blur-sm motion-reduce:animate-none">
-              <Heart className="h-36 w-36 text-primary" strokeWidth={1.3} />
-
-              <div className="absolute left-16 top-20 h-24 w-24 rounded-full border-4 border-secondary/45" />
-
-              <div className="absolute right-16 bottom-20 h-24 w-24 rounded-full border-4 border-primary/45" />
+            <div className="relative w-full max-w-xl overflow-hidden rounded-lg border bg-card shadow-soft">
+              <img
+                src={weddingRingsImage}
+                alt="Duas alianças douradas delicadas próximas, sem se tocar"
+                width={1536}
+                height={864}
+                className="aspect-[16/10] w-full object-cover"
+              />
             </div>
           </div>
         </div>
