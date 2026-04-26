@@ -4,7 +4,6 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useLocalProgress } from "@/hooks/useLocalProgress";
 import { cn } from "@/lib/utils";
-import weddingRingsImage from "@/assets/gold-wedding-rings-approaching.png";
 
 const links = [
   { to: "/trilha", label: "Trilha" },
@@ -14,13 +13,20 @@ const links = [
 ];
 
 const AntesDoSimLogo = ({ className = "h-10 w-10" }: { className?: string }) => (
-  <img
-    src={weddingRingsImage}
-    alt="Antes do Sim"
-    width={80}
-    height={80}
-    className={cn("rounded-full border object-cover shadow-card", className)}
-  />
+  <svg
+    viewBox="0 0 40 40"
+    className={cn("text-primary", className)}
+    role="img"
+    aria-label="Antes do Sim"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" strokeWidth="2.8" />
+    <path
+      d="M15.8 16.4c.35-3.1 2.75-5 5.6-5 3.25 0 5.55 2.05 5.55 5 0 2.25-1.15 3.45-3.05 4.7-1.65 1.1-2.25 1.95-2.25 3.55v.55h-3.05v-.8c0-2.25.9-3.55 2.8-4.85 1.65-1.1 2.25-1.85 2.25-3 0-1.4-.95-2.35-2.4-2.35-1.55 0-2.45 1-2.65 2.55l-2.8-.35Z"
+      fill="currentColor"
+    />
+    <circle cx="20.15" cy="29" r="1.65" fill="currentColor" />
+  </svg>
 );
 
 const AppLayout = () => {
