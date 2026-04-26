@@ -12,8 +12,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        serif: ["Libre Caslon Display", "Georgia", "serif"],
-        sans: ["Figtree", "Inter", "system-ui", "sans-serif"],
+        serif: ["Fjalla One", "Arial Narrow", "sans-serif"],
+        sans: ["Lora", "Georgia", "serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
