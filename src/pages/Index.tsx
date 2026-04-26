@@ -22,15 +22,17 @@ const Index = () => {
             className="space-y-7"
           >
             <div className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-2 text-sm font-semibold text-muted-foreground">
-              <Sparkles className="h-4 w-4 text-primary" /> Cartilha interativa sem juridiquês
+              <Sparkles className="h-4 w-4 text-primary" />
+              Cartilha interativa sem juridiquês
             </div>
 
             <div className="space-y-5">
-              <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
+              <h1 className="max-w-4xl text-balance text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
                 Leia isso{" "}
-                <Highlight className="text-foreground">
-                  antes de casar!
-                </Highlight>
+                <span className="whitespace-nowrap">
+                  antes&nbsp;de&nbsp;
+                  <Highlight className="text-foreground">casar!</Highlight>
+                </span>
               </h1>
 
               <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
@@ -55,8 +57,10 @@ const Index = () => {
               <div className="max-w-md rounded-lg border bg-card/80 p-4 shadow-card backdrop-blur">
                 <div className="mb-2 flex items-center justify-between text-sm font-semibold">
                   <span>Você completou {completed} de 5 módulos</span>
+
                   <span>{Math.round((completed / modules.length) * 100)}%</span>
                 </div>
+
                 <ProgressBar value={(completed / modules.length) * 100} />
               </div>
             )}
@@ -64,25 +68,32 @@ const Index = () => {
 
           <div className="relative flex min-h-[360px] items-center justify-center">
             <div className="absolute inset-8 rounded-full border border-primary/20 bg-card/35 blur-3xl" />
+
             <div className="relative flex aspect-square w-full max-w-md animate-float items-center justify-center rounded-full border bg-card/70 shadow-soft backdrop-blur-sm motion-reduce:animate-none">
               <Heart className="h-36 w-36 text-primary" strokeWidth={1.3} />
+
               <div className="absolute left-16 top-20 h-24 w-24 rounded-full border-4 border-secondary/45" />
+
               <div className="absolute right-16 bottom-20 h-24 w-24 rounded-full border-4 border-primary/45" />
             </div>
           </div>
         </div>
       </HeroHighlight>
+
       <section className="section-pad">
         <div className="content-wrap">
           <div className="mb-8 max-w-2xl">
             <h2 className="text-3xl font-bold md:text-4xl">Escolha por onde começar</h2>
+
             <p className="mt-3 text-muted-foreground">
               Conteúdo prático para transformar conversas difíceis em decisões conscientes.
             </p>
           </div>
+
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {featureCards.map((card) => {
               const Icon = card.icon;
+
               return (
                 <Link
                   key={card.title}
@@ -92,7 +103,9 @@ const Index = () => {
                   <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary transition-transform group-hover:scale-105">
                     <Icon className="h-5 w-5" />
                   </div>
+
                   <h3 className="text-2xl font-bold">{card.title}</h3>
+
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{card.description}</p>
                 </Link>
               );
