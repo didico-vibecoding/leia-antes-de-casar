@@ -95,24 +95,24 @@
     --destructive: 10 34% 56%;
     --destructive-foreground: 40 41% 90%;
 
-    --border: 40 13% 31%;
-    --input: 40 13% 31%;
-    --ring: 95 16% 55%;
+    --border: 347 89% 48% / 0.24;
+    --input: 347 78% 86%;
+    --ring: 347 89% 48%;
 
-    --success: 95 16% 55%;
-    --success-foreground: 27 12% 15%;
+    --success: 345 86% 11%;
+    --success-foreground: 347 75% 95%;
 
-    --warning: 44 27% 50%;
-    --warning-foreground: 27 12% 15%;
+    --warning: 347 78% 86%;
+    --warning-foreground: 345 86% 11%;
 
-    --info: 95 16% 55%;
-    --info-foreground: 27 12% 15%;
+    --info: 347 89% 48%;
+    --info-foreground: 347 75% 95%;
 
-    --hero: 42 17% 19%;
-    --hero-foreground: 38 41% 88%;
+    --hero: 347 75% 95%;
+    --hero-foreground: 345 86% 11%;
 
-    --soft: 39 13% 26%;
-    --soft-foreground: 38 41% 88%;
+    --soft: 347 78% 86%;
+    --soft-foreground: 345 86% 11%;
 
     --sidebar-background: 42 17% 19%;
     --sidebar-foreground: 38 41% 88%;
