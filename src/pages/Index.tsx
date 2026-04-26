@@ -18,16 +18,30 @@ const Index = () => {
               <Sparkles className="h-4 w-4 text-primary" /> Cartilha interativa sem juridiquês
             </div>
             <div className="space-y-5">
-              <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">Você sabe com o que está concordando quando diz sim?</h1>
-              <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">Uma cartilha interativa sobre os seus direitos e deveres no casamento. Simples, honesta e sem juridiquês.</p>
+              <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
+                Leia isso antes de casar!
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
+                Uma cartilha interativa sobre os seus direitos e deveres no casamento. Simples, honesta e sem
+                juridiquês.
+              </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg" variant="hero"><Link to="/trilha">Começar a trilha <ArrowRight /></Link></Button>
-              <Button asChild size="lg" variant="outline"><Link to="/simulador">Fazer o simulador</Link></Button>
+              <Button asChild size="lg" variant="hero">
+                <Link to="/trilha">
+                  Começar a trilha <ArrowRight />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link to="/simulador">Fazer o simulador</Link>
+              </Button>
             </div>
             {completed > 0 && (
               <div className="max-w-md rounded-lg border bg-card/80 p-4 shadow-card backdrop-blur">
-                <div className="mb-2 flex items-center justify-between text-sm font-semibold"><span>Você completou {completed} de 5 módulos</span><span>{Math.round((completed / modules.length) * 100)}%</span></div>
+                <div className="mb-2 flex items-center justify-between text-sm font-semibold">
+                  <span>Você completou {completed} de 5 módulos</span>
+                  <span>{Math.round((completed / modules.length) * 100)}%</span>
+                </div>
                 <ProgressBar value={(completed / modules.length) * 100} />
               </div>
             )}
@@ -46,14 +60,22 @@ const Index = () => {
         <div className="content-wrap">
           <div className="mb-8 max-w-2xl">
             <h2 className="text-3xl font-bold md:text-4xl">Escolha por onde começar</h2>
-            <p className="mt-3 text-muted-foreground">Conteúdo prático para transformar conversas difíceis em decisões conscientes.</p>
+            <p className="mt-3 text-muted-foreground">
+              Conteúdo prático para transformar conversas difíceis em decisões conscientes.
+            </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {featureCards.map((card) => {
               const Icon = card.icon;
               return (
-                <Link key={card.title} to={card.href} className="editorial-card group p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary transition-transform group-hover:scale-105"><Icon className="h-5 w-5" /></div>
+                <Link
+                  key={card.title}
+                  to={card.href}
+                  className="editorial-card group p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-md bg-primary/10 text-primary transition-transform group-hover:scale-105">
+                    <Icon className="h-5 w-5" />
+                  </div>
                   <h3 className="text-2xl font-bold">{card.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{card.description}</p>
                 </Link>
