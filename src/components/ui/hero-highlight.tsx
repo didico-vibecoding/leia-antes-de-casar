@@ -1,25 +1,105 @@
-<motion.span
-  initial={{
-    backgroundSize: "0% 100%",
-  }}
-  animate={{
-    backgroundSize: ["0% 100%", "100% 100%", "100% 100%", "0% 100%"],
-  }}
-  transition={{
-    duration: 4,
-    ease: "easeInOut",
-    repeat: Infinity,
-    repeatDelay: 0.8,
-  }}
-  style={{
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "left center",
-    display: "inline",
-  }}
-  className={cn(
-    "relative inline-block rounded-lg bg-gradient-to-r from-primary/30 to-accent/40 px-2 pb-1 text-foreground",
-    className,
-  )}
->
-  {children}
-</motion.span>;
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
+import React from "react";
+
+export const HeroHighlight = ({
+  children,
+  className,
+  containerClassName,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  containerClassName?: string;
+}) => {
+  let mouseX = useMotionValue(0);
+  let mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) {
+    if (!currentTarget) return;
+
+    let { left, top } = currentTarget.getBoundingClientRect();
+
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  const dotPattern = (color: string) => ({
+    backgroundImage: `radial-gradient(circle, ${color} 1px, transparent 1px)`,
+    backgroundSize: "16px 16px",
+  });
+
+  return (
+    <div
+      className={cn(
+        "relative h-[40rem] flex items-center justify-center w-full group bg-background",
+        containerClassName,
+      )}
+      onMouseMove={handleMouseMove}
+    >
+      {/* base dots */}
+      <div className="absolute inset-0 pointer-events-none opacity-70" style={dotPattern("rgb(212 212 212)")} />
+
+      {/* dark mode dots */}
+      <div
+        className="absolute inset-0 dark:opacity-70 opacity-0 pointer-events-none"
+        style={dotPattern("rgb(38 38 38)")}
+      />
+
+      {/* interactive spotlight */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          ...dotPattern("rgb(99 102 241)"),
+          WebkitMaskImage: useMotionTemplate`
+            radial-gradient(
+              200px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
+            )
+          `,
+          maskImage: useMotionTemplate`
+            radial-gradient(
+              200px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
+            )
+          `,
+        }}
+      />
+
+      <div className={cn("relative z-20", className)}>{children}</div>
+    </div>
+  );
+};
+
+export const Highlight = ({ children, className }: { children: React.ReactNode; className?: string }) => {
+  return (
+    <motion.span
+      initial={{
+        backgroundSize: "0% 100%",
+      }}
+      animate={{
+        backgroundSize: ["0% 100%", "100% 100%", "100% 100%", "0% 100%"],
+      }}
+      transition={{
+        duration: 4,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatDelay: 0.8,
+      }}
+      style={{
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "left center",
+        display: "inline",
+      }}
+      className={cn(
+        "relative inline-block px-2 pb-1 rounded-lg bg-gradient-to-r from-primary/30 to-accent/40 text-foreground",
+        className,
+      )}
+    >
+      {children}
+    </motion.span>
+  );
+};
