@@ -1,7 +1,9 @@
 import { ArrowRight, Heart, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import ProgressBar from "@/components/app/ProgressBar";
 import { Button } from "@/components/ui/button";
+import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { featureCards, modules } from "@/data/appData";
 import { useLocalProgress } from "@/hooks/useLocalProgress";
 
@@ -11,31 +13,44 @@ const Index = () => {
 
   return (
     <div>
-      <section className="section-pad overflow-hidden bg-warm-gradient">
+      <HeroHighlight containerClassName="section-pad min-h-[calc(100vh-5rem)] bg-warm-gradient">
         <div className="content-wrap grid min-h-[calc(100vh-10rem)] items-center gap-10 py-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="animate-reveal space-y-7">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: [20, -5, 0] }}
+            transition={{ duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
+            className="space-y-7"
+          >
             <div className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-2 text-sm font-semibold text-muted-foreground">
               <Sparkles className="h-4 w-4 text-primary" /> Cartilha interativa sem juridiquês
             </div>
+
             <div className="space-y-5">
               <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
-                Leia isso antes de casar!
+                Leia isso{" "}
+                <Highlight className="text-foreground">
+                  antes de casar!
+                </Highlight>
               </h1>
+
               <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
                 Uma cartilha interativa sobre os seus direitos e deveres no casamento. Simples, honesta e sem
                 juridiquês.
               </p>
             </div>
+
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" variant="hero">
                 <Link to="/trilha">
                   Começar a trilha <ArrowRight />
                 </Link>
               </Button>
+
               <Button asChild size="lg" variant="outline">
                 <Link to="/simulador">Fazer o simulador</Link>
               </Button>
             </div>
+
             {completed > 0 && (
               <div className="max-w-md rounded-lg border bg-card/80 p-4 shadow-card backdrop-blur">
                 <div className="mb-2 flex items-center justify-between text-sm font-semibold">
@@ -45,7 +60,8 @@ const Index = () => {
                 <ProgressBar value={(completed / modules.length) * 100} />
               </div>
             )}
-          </div>
+          </motion.div>
+
           <div className="relative flex min-h-[360px] items-center justify-center">
             <div className="absolute inset-8 rounded-full border border-primary/20 bg-card/35 blur-3xl" />
             <div className="relative flex aspect-square w-full max-w-md animate-float items-center justify-center rounded-full border bg-card/70 shadow-soft backdrop-blur-sm motion-reduce:animate-none">
@@ -55,7 +71,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </HeroHighlight>
       <section className="section-pad">
         <div className="content-wrap">
           <div className="mb-8 max-w-2xl">
