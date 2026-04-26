@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import React from "react";
 
 export const HeroHighlight = ({
@@ -13,16 +13,6 @@ export const HeroHighlight = ({
   className?: string;
   containerClassName?: string;
 }) => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
   const dotPattern = (color: string) => ({
     backgroundImage: `radial-gradient(circle, ${color} 1px, transparent 1px)`,
     backgroundSize: "16px 16px",
@@ -34,31 +24,41 @@ export const HeroHighlight = ({
         "relative flex min-h-[calc(100vh-5rem)] w-full items-center justify-center overflow-hidden bg-background",
         containerClassName,
       )}
-      onMouseMove={handleMouseMove}
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        style={dotPattern("hsl(var(--foreground) / 0.22)")}
+      {/* background dots */}
+      <div className="absolute inset-0 opacity-40" style={dotPattern("hsl(var(--foreground) / 0.2)")} />
+
+      {/* animated gradient light */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(circle at center, hsl(var(--primary) / 0.35), transparent 60%)",
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.35, 0.55, 0.35],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
       />
 
+      {/* animated floating gradient */}
       <motion.div
-        className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100"
+        className="absolute inset-0"
         style={{
-          ...dotPattern("hsl(var(--primary))"),
-          WebkitMaskImage: useMotionTemplate`
-            radial-gradient(
-              220px circle at ${mouseX}px ${mouseY}px,
-              black 0%,
-              transparent 100%
-            )
-          `,
-          maskImage: useMotionTemplate`
-            radial-gradient(
-              220px circle at ${mouseX}px ${mouseY}px,
-              black 0%,
-              transparent 100%
-            )
-          `,
+          background: "radial-gradient(circle at 30% 30%, hsl(var(--accent) / 0.25), transparent 60%)",
+        }}
+        animate={{
+          x: [-40, 40, -40],
+          y: [-30, 30, -30],
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: "easeInOut",
         }}
       />
 
@@ -77,7 +77,7 @@ export const Highlight = ({ children, className }: { children: React.ReactNode; 
         backgroundSize: "100% 100%",
       }}
       transition={{
-        duration: 1.4,
+        duration: 1.6,
         ease: "linear",
         delay: 0.4,
       }}
@@ -87,7 +87,7 @@ export const Highlight = ({ children, className }: { children: React.ReactNode; 
         display: "inline",
       }}
       className={cn(
-        "relative inline-block rounded-lg bg-gradient-to-r from-primary/25 to-accent/40 px-2 pb-1 text-foreground",
+        "relative inline-block rounded-lg bg-gradient-to-r from-primary/30 to-accent/40 px-2 pb-1 text-foreground",
         className,
       )}
     >
