@@ -27,7 +27,7 @@ const Index = () => {
             </div>
 
             <div className="space-y-5">
-              <h1 className="max-w-4xl text-balance text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
+              <h1 className="max-w-4xl text-balance font-serif text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
                 Leia isso{" "}
                 <span className="inline-block whitespace-nowrap">
                   <Highlight className="text-foreground">antes&nbsp;de&nbsp;casar!</Highlight>
