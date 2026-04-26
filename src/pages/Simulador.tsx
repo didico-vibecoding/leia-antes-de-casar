@@ -1,7 +1,8 @@
-import { ArrowLeft, ArrowRight, Building2, CheckCircle2, Landmark, Scale } from "lucide-react";
+import { ArrowLeft, ArrowRight, Building2, CheckCircle2, Landmark, Lock, Scale } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 type Answers = Record<string, string>;
@@ -40,6 +41,7 @@ const Simulador = () => {
   const [answers, setAnswers] = useState<Answers>({});
   const [selectedRegime, setSelectedRegime] = useState("Comunhão Parcial");
   const [assetValues, setAssetValues] = useState<Record<AssetKey, string>>({ imovelAnterior: "", imovelDurante: "", investimentos: "", dividas: "" });
+  const [isAccessModalOpen, setIsAccessModalOpen] = useState(false);
   const { saveSimulator } = useLocalProgress();
   const current = steps[step];
   const canAdvance = step >= steps.length || current.questions.every((q) => answers[q.id]);
@@ -109,39 +111,58 @@ const Simulador = () => {
                 );
               })}
             </div>
-            <div className="rounded-lg border bg-card p-5 shadow-card">
-              <div className="mb-6 max-w-2xl">
-                <p className="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-primary">Calculadora de bens</p>
-                <h2 className="text-3xl font-bold">Simule uma divisão patrimonial aproximada.</h2>
-                <p className="mt-3 text-muted-foreground">Informe valores estimados e escolha um regime para visualizar uma divisão educativa, sem valor jurídico.</p>
-              </div>
-              <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-                <div className="space-y-4">
-                  <label className="grid gap-2 font-semibold">
-                    Regime escolhido pelo casal
-                    <select value={selectedRegime} onChange={(event) => setSelectedRegime(event.target.value)} className="rounded-md border border-input bg-background px-3 py-2 text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                      {regimes.map((regime) => <option key={regime.name}>{regime.name}</option>)}
-                    </select>
-                  </label>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {(Object.keys(assetLabels) as AssetKey[]).map((key) => (
-                      <label key={key} className="grid gap-2 text-sm font-semibold">
-                        {assetLabels[key]}
-                        <input inputMode="decimal" placeholder="Ex: 150000" value={assetValues[key]} onChange={(event) => setAssetValues((prev) => ({ ...prev, [key]: event.target.value }))} className="rounded-md border border-input bg-background px-3 py-2 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-                      </label>
-                    ))}
+            <div className="group relative cursor-pointer overflow-hidden rounded-lg border bg-card p-5 shadow-card" role="button" tabIndex={0} onClick={() => setIsAccessModalOpen(true)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsAccessModalOpen(true); }} aria-label="Liberar acesso à calculadora de bens">
+              <div className="pointer-events-none blur-[1.5px]">
+                <div className="mb-6 max-w-2xl">
+                  <p className="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-primary">Calculadora de bens</p>
+                  <h2 className="text-3xl font-bold">Simule uma divisão patrimonial aproximada.</h2>
+                  <p className="mt-3 text-muted-foreground">Informe valores estimados e escolha um regime para visualizar uma divisão educativa, sem valor jurídico.</p>
+                </div>
+                <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+                  <div className="space-y-4">
+                    <label className="grid gap-2 font-semibold">
+                      Regime escolhido pelo casal
+                      <select disabled value={selectedRegime} onChange={(event) => setSelectedRegime(event.target.value)} className="rounded-md border border-input bg-background px-3 py-2 text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                        {regimes.map((regime) => <option key={regime.name}>{regime.name}</option>)}
+                      </select>
+                    </label>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      {(Object.keys(assetLabels) as AssetKey[]).map((key) => (
+                        <label key={key} className="grid gap-2 text-sm font-semibold">
+                          {assetLabels[key]}
+                          <input disabled inputMode="decimal" placeholder="Ex: 150000" value={assetValues[key]} onChange={(event) => setAssetValues((prev) => ({ ...prev, [key]: event.target.value }))} className="rounded-md border border-input bg-background px-3 py-2 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-muted p-5">
+                    <p className="text-sm font-bold uppercase tracking-[0.18em] text-secondary">Resultado estimado</p>
+                    <div className="mt-5 space-y-4">
+                      <div><p className="text-sm text-muted-foreground">Parte aproximada de cada cônjuge</p><p className="text-3xl font-bold text-primary">{currencyFormatter.format(division.spouseShare)}</p></div>
+                      <div><p className="text-sm text-muted-foreground">Valor preservado como individual nesta simulação</p><p className="text-2xl font-bold">{currencyFormatter.format(division.protectedIndividual)}</p></div>
+                      <div><p className="text-sm text-muted-foreground">Patrimônio líquido considerado</p><p className="text-xl font-bold">{currencyFormatter.format(Math.max(division.totalConsidered, 0))}</p></div>
+                    </div>
                   </div>
                 </div>
-                <div className="rounded-lg bg-muted p-5">
-                  <p className="text-sm font-bold uppercase tracking-[0.18em] text-secondary">Resultado estimado</p>
-                  <div className="mt-5 space-y-4">
-                    <div><p className="text-sm text-muted-foreground">Parte aproximada de cada cônjuge</p><p className="text-3xl font-bold text-primary">{currencyFormatter.format(division.spouseShare)}</p></div>
-                    <div><p className="text-sm text-muted-foreground">Valor preservado como individual nesta simulação</p><p className="text-2xl font-bold">{currencyFormatter.format(division.protectedIndividual)}</p></div>
-                    <div><p className="text-sm text-muted-foreground">Patrimônio líquido considerado</p><p className="text-xl font-bold">{currencyFormatter.format(Math.max(division.totalConsidered, 0))}</p></div>
-                  </div>
+              </div>
+              <div className="pointer-events-none absolute inset-0 bg-background/55 transition-colors group-hover:bg-background/70" />
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="rounded-full border bg-card/95 p-5 shadow-soft">
+                  <Lock className="h-14 w-14 text-primary" />
                 </div>
               </div>
             </div>
+            <Dialog open={isAccessModalOpen} onOpenChange={setIsAccessModalOpen}>
+              <DialogContent className="rounded-2xl p-8 text-center sm:max-w-md">
+                <DialogHeader className="space-y-4 text-center">
+                  <DialogTitle className="text-3xl leading-tight">🔓 Ajuda um builder com 10 pila e tenha acesso à calculadora!</DialogTitle>
+                  <DialogDescription className="text-base">Libere a simulação patrimonial completa em poucos segundos.</DialogDescription>
+                </DialogHeader>
+                <Button asChild className="mt-4 w-full text-base" size="lg">
+                  <a href="#gateway-pagamento">Quero ter acesso — R$ 10,00</a>
+                </Button>
+              </DialogContent>
+            </Dialog>
             <div className="sticky bottom-4 rounded-lg border bg-card p-4 shadow-soft">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <p className="text-sm font-medium text-muted-foreground">Este simulador tem fins educativos. Consulte um advogado de família para orientação personalizada.</p>
