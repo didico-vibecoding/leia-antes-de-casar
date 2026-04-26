@@ -14,6 +14,7 @@ export default {
       fontFamily: {
         serif: ["Crimson Text", "Georgia", "serif"],
         sans: ["Work Sans", "Inter", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -104,12 +105,22 @@ export default {
           to: { height: "0" },
         },
         float: {
-          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
-          "50%": { transform: "translateY(-8px) rotate(2deg)" },
+          "0%, 100%": {
+            transform: "translateY(0) rotate(0deg)",
+          },
+          "50%": {
+            transform: "translateY(-8px) rotate(2deg)",
+          },
         },
         reveal: {
-          from: { opacity: "0", transform: "translateY(14px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
+          from: {
+            opacity: "0",
+            transform: "translateY(14px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
         },
       },
       animation: {
