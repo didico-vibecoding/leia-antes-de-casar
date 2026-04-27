@@ -2,7 +2,6 @@ import { ArrowLeft, ArrowRight, Building2, CheckCircle2, Landmark, Scale } from 
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 type Answers = Record<string, string>;
 type AssetKey = "imovelAnterior" | "imovelDurante" | "investimentos" | "dividas";
@@ -40,7 +39,6 @@ const Simulador = () => {
   const [answers, setAnswers] = useState<Answers>({});
   const [selectedRegime, setSelectedRegime] = useState("Comunhão Parcial");
   const [assetValues, setAssetValues] = useState<Record<AssetKey, string>>({ imovelAnterior: "", imovelDurante: "", investimentos: "", dividas: "" });
-  const { saveSimulator } = useLocalProgress();
   const current = steps[step];
   const canAdvance = step >= steps.length || current.questions.every((q) => answers[q.id]);
 
@@ -86,7 +84,7 @@ const Simulador = () => {
             </div>
             <div className="mt-8 flex justify-between">
               <Button variant="outline" onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0}><ArrowLeft /> Voltar</Button>
-              <Button onClick={() => { const next = step + 1; setStep(next); if (next === 3) saveSimulator({ answers, result }); }} disabled={!canAdvance}>Continuar <ArrowRight /></Button>
+              <Button onClick={() => setStep((s) => s + 1)} disabled={!canAdvance}>Continuar <ArrowRight /></Button>
             </div>
           </div>
         ) : (
