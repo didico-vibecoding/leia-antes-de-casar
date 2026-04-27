@@ -1,24 +1,24 @@
 import { Award, RotateCcw } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import ProgressBar from "@/components/app/ProgressBar";
 import { Button } from "@/components/ui/button";
 import { checklistCategories } from "@/data/appData";
-import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 const itemId = (categoryId: string, index: number) => `${categoryId}-${index}`;
 
 const Checklist = () => {
-  const { progress, setChecklistItem, clearChecklist } = useLocalProgress();
+  const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const total = checklistCategories.reduce((sum, category) => sum + category.items.length, 0);
-  const done = checklistCategories.reduce((sum, category) => sum + category.items.filter((_, index) => progress.checklistItems[itemId(category.id, index)]).length, 0);
+  const done = checklistCategories.reduce((sum, category) => sum + category.items.filter((_, index) => checkedItems[itemId(category.id, index)]).length, 0);
 
   const toggle = (id: string, value: boolean) => {
-    setChecklistItem(id, value);
+    setCheckedItems((current) => ({ ...current, [id]: value }));
     if (value) toast("Item marcado", { description: "Seu checklist foi atualizado." });
   };
 
   const reset = () => {
-    if (window.confirm("Tem certeza que deseja limpar todo o checklist?")) clearChecklist();
+    if (window.confirm("Tem certeza que deseja limpar todo o checklist?")) setCheckedItems({});
   };
 
   return (
@@ -39,7 +39,7 @@ const Checklist = () => {
         <div className="grid gap-5 md:grid-cols-2">
           {checklistCategories.map((category) => {
             const Icon = category.icon;
-            const categoryDone = category.items.every((_, index) => progress.checklistItems[itemId(category.id, index)]);
+            const categoryDone = category.items.every((_, index) => checkedItems[itemId(category.id, index)]);
             return (
               <article key={category.id} className="rounded-lg border bg-card p-5 shadow-card">
                 <div className="mb-5 flex items-start justify-between gap-3">
@@ -51,7 +51,7 @@ const Checklist = () => {
                     const id = itemId(category.id, index);
                     return (
                       <label key={id} className="flex cursor-pointer gap-3 rounded-md border bg-background p-3 transition-colors hover:bg-muted">
-                        <input type="checkbox" checked={Boolean(progress.checklistItems[id])} onChange={(event) => toggle(id, event.target.checked)} className="mt-1 h-4 w-4 accent-primary" />
+                        <input type="checkbox" checked={Boolean(checkedItems[id])} onChange={(event) => toggle(id, event.target.checked)} className="mt-1 h-4 w-4 accent-primary" />
                         <span className="text-sm leading-6">{item}</span>
                       </label>
                     );

@@ -9,7 +9,6 @@ import Glossario from "./pages/Glossario";
 import Index from "./pages/Index";
 import Modulo from "./pages/Modulo";
 import NotFound from "./pages/NotFound";
-import Progresso from "./pages/Progresso";
 import Simulador from "./pages/Simulador";
 import Trilha from "./pages/Trilha";
 
@@ -29,7 +28,6 @@ const App = () => (
             <Route path="/simulador" element={<Simulador />} />
             <Route path="/checklist" element={<Checklist />} />
             <Route path="/glossario" element={<Glossario />} />
-            <Route path="/progresso" element={<Progresso />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

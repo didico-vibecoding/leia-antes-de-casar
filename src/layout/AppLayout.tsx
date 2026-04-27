@@ -2,7 +2,6 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useLocalProgress } from "@/hooks/useLocalProgress";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -31,8 +30,6 @@ const AntesDoSimLogo = ({ className = "h-10 w-10" }: { className?: string }) => 
 
 const AppLayout = () => {
   const [open, setOpen] = useState(false);
-  const { progress } = useLocalProgress();
-  const completed = progress.modulosConcluidos.length;
 
   return (
     <div className="page-shell flex min-h-screen flex-col">
@@ -46,11 +43,6 @@ const AppLayout = () => {
               <NavLink key={link.to} to={link.to} className={({ isActive }) => cn("nav-link", isActive && "active-nav")}>{link.label}</NavLink>
             ))}
           </nav>
-          <div className="hidden items-center gap-3 md:flex">
-            <Link to="/progresso" className="rounded-md border bg-card px-3 py-2 text-sm font-semibold text-card-foreground transition-colors hover:bg-muted" aria-label={`Progresso: ${completed} de 5 módulos`}>
-              {completed}/5 módulos
-            </Link>
-          </div>
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setOpen((value) => !value)} aria-label="Abrir menu">
             {open ? <X /> : <Menu />}
           </Button>
@@ -61,7 +53,6 @@ const AppLayout = () => {
               {links.map((link) => (
                 <NavLink key={link.to} to={link.to} onClick={() => setOpen(false)} className={({ isActive }) => cn("nav-link", isActive && "active-nav")}>{link.label}</NavLink>
               ))}
-              <NavLink to="/progresso" onClick={() => setOpen(false)} className={({ isActive }) => cn("nav-link", isActive && "active-nav")}>Progresso {completed}/5</NavLink>
             </div>
           </nav>
         )}
