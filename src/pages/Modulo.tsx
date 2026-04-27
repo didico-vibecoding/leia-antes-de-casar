@@ -6,7 +6,6 @@ import GlossaryTooltip from "@/components/app/GlossaryTooltip";
 import ProgressBar from "@/components/app/ProgressBar";
 import { Button } from "@/components/ui/button";
 import { boxStyles, modules } from "@/data/appData";
-import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 const terms = ["Regime de bens", "Meação", "Herança", "Testamento", "Bem de família", "Pacto antenupcial", "Herdeiro necessário", "Partilha"];
 
@@ -21,7 +20,6 @@ const renderText = (text: string) => {
 const Modulo = () => {
   const { moduloId } = useParams();
   const module = modules.find((item) => item.id === Number(moduloId));
-  const { progress, completeModule } = useLocalProgress();
   const [scroll, setScroll] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
 
@@ -43,7 +41,6 @@ const Modulo = () => {
   const allAnswered = module.quiz.every((_, index) => answers[index]);
 
   const finish = () => {
-    completeModule(module.id, { acertos: score, total: module.quiz.length });
     toast.success("Módulo concluído! 🎉", { description: `Você acertou ${score} de ${module.quiz.length}.` });
   };
 
@@ -110,7 +107,7 @@ const Modulo = () => {
           </section>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
             <Button asChild variant="outline"><Link to="/trilha"><ArrowLeft /> Ver todos</Link></Button>
-            {next ? <Button asChild variant="calm"><Link to={`/trilha/${next.id}`}>Próximo módulo <ArrowRight /></Link></Button> : <Button asChild variant="calm"><Link to="/progresso">Ver progresso <ArrowRight /></Link></Button>}
+            {next ? <Button asChild variant="calm"><Link to={`/trilha/${next.id}`}>Próximo módulo <ArrowRight /></Link></Button> : <Button asChild variant="calm"><Link to="/trilha">Ver todos <ArrowRight /></Link></Button>}
           </div>
         </div>
       </div>
