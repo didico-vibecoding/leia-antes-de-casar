@@ -46,10 +46,7 @@ const Index = () => {
 
             <div className="space-y-5">
               <h1 className="max-w-4xl text-balance font-serif text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
-                Antes do Sim: entenda seus direitos antes de casar
-                <span className="inline-block whitespace-nowrap">
-                  <Highlight className="text-foreground">com&nbsp;consciência.</Highlight>
-                </span>
+                <Highlight className="text-foreground">Leia isso antes de casar!</Highlight>
               </h1>
 
               <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
