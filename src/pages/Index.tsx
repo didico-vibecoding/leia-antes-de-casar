@@ -1,11 +1,9 @@
 import { ArrowRight, BookOpen, CheckCircle2, Heart, Scale, Shield, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import ProgressBar from "@/components/app/ProgressBar";
 import { Button } from "@/components/ui/button";
-import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { modules } from "@/data/appData";
-import { useLocalProgress } from "@/hooks/useLocalProgress";
 
 const projectPillars = [
   {
@@ -26,9 +24,6 @@ const projectPillars = [
 ];
 
 const Index = () => {
-  const { progress } = useLocalProgress();
-  const completed = progress.modulosConcluidos.length;
-
   return (
     <div>
       <HeroHighlight containerClassName="section-pad bg-warm-gradient">
@@ -67,17 +62,6 @@ const Index = () => {
               </Button>
             </div>
 
-            {completed > 0 && (
-              <div className="max-w-md rounded-lg border bg-card/80 p-4 shadow-card backdrop-blur">
-                <div className="mb-2 flex items-center justify-between text-sm font-semibold">
-                  <span>Você completou {completed} de 5 módulos</span>
-
-                  <span>{Math.round((completed / modules.length) * 100)}%</span>
-                </div>
-
-                <ProgressBar value={(completed / modules.length) * 100} />
-              </div>
-            )}
           </motion.div>
 
           <div className="relative flex min-h-[360px] items-center justify-center">
