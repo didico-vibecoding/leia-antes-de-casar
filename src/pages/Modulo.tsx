@@ -199,10 +199,27 @@ const Modulo = () => {
             {openInfografico === "uniao" && "Infográfico União Estável vs. Casamento"}
             {openInfografico === "nome" && "Infográfico Mudança de Nome"}
             {openInfografico === "regime" && "Infográfico Escolhendo o Regime de Bens"}
+            {openInfografico === "pacto" && "Infográfico Pacto Antenupcial: O Guia de Bolso do Casal"}
           </DialogTitle>
           <img
-            src={openInfografico === "uniao" ? uniaoEstavelInfografico.url : openInfografico === "nome" ? mudancaDeNomeInfografico.url : escolhendoRegimeInfografico.url}
-            alt={openInfografico === "uniao" ? "Infográfico ampliado comparando União Estável e Casamento Civil." : openInfografico === "nome" ? "Infográfico ampliado Mudança de Nome: Um Quebra-Cabeça de Possibilidades." : "Infográfico ampliado Escolhendo o Regime de Bens: Um Checklist para o Futuro."}
+            src={
+              openInfografico === "uniao"
+                ? uniaoEstavelInfografico.url
+                : openInfografico === "nome"
+                  ? mudancaDeNomeInfografico.url
+                  : openInfografico === "regime"
+                    ? escolhendoRegimeInfografico.url
+                    : pactoAntenupcialInfografico.url
+            }
+            alt={
+              openInfografico === "uniao"
+                ? "Infográfico ampliado comparando União Estável e Casamento Civil."
+                : openInfografico === "nome"
+                  ? "Infográfico ampliado Mudança de Nome: Um Quebra-Cabeça de Possibilidades."
+                  : openInfografico === "regime"
+                    ? "Infográfico ampliado Escolhendo o Regime de Bens: Um Checklist para o Futuro."
+                    : "Infográfico ampliado Pacto Antenupcial: O Guia de Bolso do Casal."
+            }
             className="block h-auto w-full max-w-none"
           />
         </DialogContent>
