@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, CheckCircle2, Heart, Scale, Shield, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle2, Scale, Shield, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
