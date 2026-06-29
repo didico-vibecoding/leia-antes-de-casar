@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { boxStyles, modules } from "@/data/appData";
 import uniaoEstavelInfografico from "@/assets/uniao-estavel-vs-casamento.png.asset.json";
 import mudancaDeNomeInfografico from "@/assets/mudanca-de-nome.png.asset.json";
+import escolhendoRegimeInfografico from "@/assets/escolhendo-regime-de-bens.png.asset.json";
 
 const renderText = (text: string) => <span>{text}</span>;
 
@@ -17,7 +18,7 @@ const Modulo = () => {
   const module = modules.find((item) => item.id === Number(moduloId));
   const [scroll, setScroll] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [openInfografico, setOpenInfografico] = useState<"uniao" | "nome" | null>(null);
+  const [openInfografico, setOpenInfografico] = useState<"uniao" | "nome" | "regime" | null>(null);
 
   useEffect(() => {
     const update = () => {
@@ -109,6 +110,27 @@ const Modulo = () => {
                   </figcaption>
                 </figure>
               )}
+              {module.id === 2 && section.titulo === "Universal, separação total e participação final" && (
+                <figure className="space-y-2 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpenInfografico("regime")}
+                    className="block w-full overflow-hidden rounded-lg border-2 transition-shadow hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    style={{ borderColor: "#005D99" }}
+                    aria-label="Abrir infográfico Escolhendo o Regime de Bens em tela cheia"
+                  >
+                    <img
+                      src={escolhendoRegimeInfografico.url}
+                      alt="Infográfico Escolhendo o Regime de Bens: Um Checklist para o Futuro. Compara Comunhão Parcial, Comunhão Universal e Separação Total de bens com exemplos e artigos do Código Civil."
+                      className="block h-auto w-full"
+                      loading="lazy"
+                    />
+                  </button>
+                  <figcaption className="text-center text-sm text-muted-foreground">
+                    Toque na imagem para ampliar
+                  </figcaption>
+                </figure>
+              )}
             </section>
           ))}
           <section className="rounded-lg border bg-card p-5 shadow-card">
@@ -152,11 +174,13 @@ const Modulo = () => {
       <Dialog open={openInfografico !== null} onOpenChange={(open) => { if (!open) setOpenInfografico(null); }}>
         <DialogContent className="max-w-[98vw] max-h-[95vh] overflow-auto p-2 sm:p-4">
           <DialogTitle className="sr-only">
-            {openInfografico === "uniao" ? "Infográfico União Estável vs. Casamento" : "Infográfico Mudança de Nome"}
+            {openInfografico === "uniao" && "Infográfico União Estável vs. Casamento"}
+            {openInfografico === "nome" && "Infográfico Mudança de Nome"}
+            {openInfografico === "regime" && "Infográfico Escolhendo o Regime de Bens"}
           </DialogTitle>
           <img
-            src={openInfografico === "uniao" ? uniaoEstavelInfografico.url : mudancaDeNomeInfografico.url}
-            alt={openInfografico === "uniao" ? "Infográfico ampliado comparando União Estável e Casamento Civil." : "Infográfico ampliado Mudança de Nome: Um Quebra-Cabeça de Possibilidades."}
+            src={openInfografico === "uniao" ? uniaoEstavelInfografico.url : openInfografico === "nome" ? mudancaDeNomeInfografico.url : escolhendoRegimeInfografico.url}
+            alt={openInfografico === "uniao" ? "Infográfico ampliado comparando União Estável e Casamento Civil." : openInfografico === "nome" ? "Infográfico ampliado Mudança de Nome: Um Quebra-Cabeça de Possibilidades." : "Infográfico ampliado Escolhendo o Regime de Bens: Um Checklist para o Futuro."}
             className="block h-auto w-full max-w-none"
           />
         </DialogContent>
