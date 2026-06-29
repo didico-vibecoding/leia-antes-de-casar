@@ -28,7 +28,7 @@ const Index = () => {
   return (
     <div>
       <HeroHighlight containerClassName="section-pad bg-warm-gradient">
-        <div className="content-wrap grid min-h-[calc(100vh-11rem)] items-center gap-10 py-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="content-wrap grid min-h-[calc(100vh-11rem)] items-center gap-6 pt-16 pb-8 md:gap-10 md:py-8 lg:grid-cols-[1.05fr_0.95fr]">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: [20, -5, 0] }}
@@ -65,7 +65,7 @@ const Index = () => {
 
           </motion.div>
 
-          <div className="flex min-h-[260px] items-center justify-center md:min-h-[360px]">
+          <div className="flex min-h-[160px] items-center justify-center md:min-h-[360px]">
             <img
               src={univaliDireitoLogo.url}
               alt="Escola de Ciências Jurídicas e Sociais - Direito Univali"
