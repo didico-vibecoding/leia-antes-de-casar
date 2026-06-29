@@ -1,28 +1,10 @@
-import { Baby, Banknote, BookOpen, CheckSquare, CircleDollarSign, FileHeart, Gavel, HeartHandshake, Home, Landmark, Scale, ScrollText, Shield, Sparkles } from "lucide-react";
+import { Baby, Banknote, BookOpen, CheckSquare, CircleDollarSign, FileHeart, Gavel, HeartHandshake, Home, Landmark, Scale, Shield, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-export type GlossaryTerm = { termo: string; definicao: string; exemplo: string };
 export type QuizQuestion = { pergunta: string; correta: string; alternativas: string[]; explicacao: string };
 export type ModuleSection = { titulo: string; paragrafos: string[]; box?: { tipo: "Atenção" | "Exemplo prático" | "Curiosidade jurídica"; texto: string } };
 export type ModuleData = { id: number; titulo: string; tempo: string; resumo: string; icon: LucideIcon; pontos: string[]; sections: ModuleSection[]; quiz: QuizQuestion[] };
 
-export const glossaryTerms: GlossaryTerm[] = [
-  { termo: "Bem de família", definicao: "Imóvel residencial registrado como bem de família, protegido de penhora por dívidas em muitos casos.", exemplo: "A casa onde a família mora pode ser preservada mesmo quando há cobrança judicial, salvo exceções legais." },
-  { termo: "Comunhão de bens", definicao: "Regime em que os bens e, em alguns casos, dívidas são compartilhados pelo casal.", exemplo: "Um apartamento comprado durante o casamento pode pertencer aos dois, conforme o regime escolhido." },
-  { termo: "Habilitação", definicao: "Processo administrativo no cartório para autorizar o casamento, com apresentação de documentos.", exemplo: "O casal leva RG, CPF e certidões ao cartório antes de marcar a cerimônia civil." },
-  { termo: "Herança", definicao: "Conjunto de bens, direitos e dívidas deixados por alguém após sua morte.", exemplo: "Imóveis, dinheiro em conta e dívidas entram no inventário." },
-  { termo: "Herdeiro necessário", definicao: "Filho, cônjuge ou ascendente que não pode ser excluído da herança. Tem direito à legítima, metade do patrimônio.", exemplo: "Quem tem filhos não pode deixar todo o patrimônio para um amigo por testamento." },
-  { termo: "Legítima", definicao: "Metade do patrimônio do falecido que obrigatoriamente vai para os herdeiros necessários.", exemplo: "Se há herdeiros necessários, só 50% podem ser destinados livremente em testamento." },
-  { termo: "Meação", definicao: "Direito de cada cônjuge à metade dos bens comuns do casal. Não é herança — é a parte que já pertence ao cônjuge vivo.", exemplo: "Antes de dividir herança, separa-se a metade que já era do cônjuge sobrevivente." },
-  { termo: "Pacto antenupcial", definicao: "Contrato feito antes do casamento que define o regime de bens. Obrigatório para Separação Total e Participação Final nos Aquestos.", exemplo: "O casal assina escritura pública no cartório antes do casamento civil." },
-  { termo: "Partilha", definicao: "Divisão dos bens comuns do casal em caso de divórcio ou morte.", exemplo: "No divórcio, define-se quem fica com o imóvel e como compensar o outro." },
-  { termo: "Regime de bens", definicao: "Conjunto de regras que define como os bens do casal serão administrados e divididos.", exemplo: "Comunhão parcial, separação total e comunhão universal são regimes de bens." },
-  { termo: "Separação de bens", definicao: "Regime em que cada cônjuge mantém seu patrimônio individual separado.", exemplo: "Uma empresa de um cônjuge não se comunica automaticamente com o outro." },
-  { termo: "Sucessão", definicao: "Processo jurídico de transferência do patrimônio de quem morreu para seus herdeiros.", exemplo: "A sucessão acontece por inventário judicial ou extrajudicial." },
-  { termo: "Testamento", definicao: "Documento em que a pessoa manifesta sua vontade sobre a destinação de seus bens após a morte. Válido para a parte disponível.", exemplo: "Uma pessoa pode deixar parte disponível para um enteado ou instituição." },
-  { termo: "União estável", definicao: "Relação afetiva duradoura entre duas pessoas, reconhecida juridicamente, mas com diferenças em relação ao casamento civil.", exemplo: "Um casal que vive junto publicamente pode ter direitos semelhantes aos do casamento." },
-  { termo: "Usufruto", definicao: "Direito de usar e usufruir de um bem que pertence a outra pessoa.", exemplo: "Os filhos recebem a propriedade, mas o cônjuge sobrevivente pode continuar usando o imóvel." },
-];
 
 const quizAlternativas = (correta: string, outras: string[]) => [correta, ...outras].sort((a, b) => a.localeCompare(b));
 
@@ -128,7 +110,6 @@ export const featureCards = [
   { title: "Trilha", description: "Cinco módulos claros para entender o casamento antes de assinar.", href: "/trilha", icon: BookOpen },
   { title: "Simulador", description: "Compare regimes de bens conforme seu perfil familiar e patrimonial.", href: "/simulador", icon: CircleDollarSign },
   { title: "Checklist", description: "Organize documentos, conversas e decisões essenciais antes do cartório.", href: "/checklist", icon: CheckSquare },
-  { title: "Glossário", description: "Traduza termos jurídicos importantes com exemplos simples.", href: "/glossario", icon: ScrollText },
 ];
 
 export const boxStyles = {

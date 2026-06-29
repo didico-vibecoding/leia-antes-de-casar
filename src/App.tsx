@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import AppLayout from "./layout/AppLayout";
 import Checklist from "./pages/Checklist";
-import Glossario from "./pages/Glossario";
+
 import Index from "./pages/Index";
 import Modulo from "./pages/Modulo";
 import NotFound from "./pages/NotFound";
@@ -27,7 +27,7 @@ const App = () => (
             <Route path="/trilha/:moduloId" element={<Modulo />} />
             <Route path="/simulador" element={<Simulador />} />
             <Route path="/checklist" element={<Checklist />} />
-            <Route path="/glossario" element={<Glossario />} />
+            
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

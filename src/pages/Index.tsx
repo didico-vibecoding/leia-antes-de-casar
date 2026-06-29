@@ -115,7 +115,7 @@ const Index = () => {
             <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-primary">Como funciona</p>
             <h2 className="text-3xl font-bold md:text-4xl">Uma jornada curta para pensar melhor antes de decidir.</h2>
             <p className="mt-4 leading-7 text-muted-foreground">
-              A plataforma combina trilha guiada, simulador, checklist e glossário para organizar o que muita gente
+              A plataforma combina trilha guiada, simulador e checklist para organizar o que muita gente
               só descobre depois do casamento.
             </p>
           </div>
@@ -146,7 +146,7 @@ const Index = () => {
           <div>
             <h2 className="text-3xl font-bold md:text-4xl">O que você encontra aqui</h2>
             <div className="mt-6 grid gap-4">
-              {["Explicações simples sobre direitos e deveres no casamento", "Simulador de regime de bens para refletir sobre cenários", "Checklist prático para conversar, organizar documentos e buscar apoio", "Glossário para entender termos jurídicos sem travar na leitura"].map((item) => (
+              {["Explicações simples sobre direitos e deveres no casamento", "Simulador de regime de bens para refletir sobre cenários", "Checklist prático para conversar, organizar documentos e buscar apoio"].map((item) => (
                 <div key={item} className="flex gap-3 rounded-lg border bg-card p-4 shadow-card">
                   <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <p className="leading-7 text-muted-foreground">{item}</p>
