@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, CheckCircle2, Scale, Shield, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle2, Scale, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -35,11 +35,6 @@ const Index = () => {
             transition={{ duration: 0.5, ease: [0.4, 0.0, 0.2, 1] }}
             className="space-y-7"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-2 text-sm font-semibold text-muted-foreground">
-              <Sparkles className="h-4 w-4 text-primary" />
-              Plataforma educativa para casais
-            </div>
-
             <div className="space-y-5">
               <h1 className="max-w-4xl text-balance font-serif text-5xl font-bold leading-tight tracking-normal text-foreground md:text-7xl">
                 Leia isso antes de casar!
