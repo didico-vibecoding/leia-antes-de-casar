@@ -132,6 +132,27 @@ const Modulo = () => {
                   </figcaption>
                 </figure>
               )}
+              {module.id === 2 && section.titulo === "Pacto antenupcial: como formalizar" && (
+                <figure className="space-y-2 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpenInfografico("pacto")}
+                    className="block w-full overflow-hidden rounded-lg border-2 transition-shadow hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    style={{ borderColor: "#005D99" }}
+                    aria-label="Abrir infográfico Pacto Antenupcial: O Guia de Bolso do Casal em tela cheia"
+                  >
+                    <img
+                      src={pactoAntenupcialInfografico.url}
+                      alt="Infográfico Pacto Antenupcial: O Guia de Bolso do Casal. Explica o que é, quando fazer, como fazer por escritura pública, o que incluir e a eficácia do pacto após o casamento."
+                      className="block h-auto w-full"
+                      loading="lazy"
+                    />
+                  </button>
+                  <figcaption className="text-center text-sm text-muted-foreground">
+                    Toque na imagem para ampliar
+                  </figcaption>
+                </figure>
+              )}
             </section>
           ))}
           <section className="rounded-lg border bg-card p-5 shadow-card">
