@@ -10,6 +10,7 @@ import { boxStyles, modules } from "@/data/appData";
 import uniaoEstavelInfografico from "@/assets/uniao-estavel-vs-casamento.png.asset.json";
 import mudancaDeNomeInfografico from "@/assets/mudanca-de-nome.png.asset.json";
 import escolhendoRegimeInfografico from "@/assets/escolhendo-regime-de-bens.png.asset.json";
+import pactoAntenupcialInfografico from "@/assets/pacto-antenupcial.png.asset.json";
 
 const renderText = (text: string) => <span>{text}</span>;
 
@@ -18,7 +19,7 @@ const Modulo = () => {
   const module = modules.find((item) => item.id === Number(moduloId));
   const [scroll, setScroll] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [openInfografico, setOpenInfografico] = useState<"uniao" | "nome" | "regime" | null>(null);
+  const [openInfografico, setOpenInfografico] = useState<"uniao" | "nome" | "regime" | "pacto" | null>(null);
 
   useEffect(() => {
     const update = () => {
