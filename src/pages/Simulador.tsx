@@ -46,8 +46,9 @@ const Simulador = () => {
     const hasOtherKids = answers.filhos === "Sim" || answers.filhosParceiro === "Sim";
     const needsSeparation = answers.empresa === "Sim" || hasOtherKids || answers.desigualdade === "Sim";
     const universalRisk = answers.dividas === "Sim" || hasOtherKids;
+    const hasProtectedAssets = answers.bensProteger === "Sim";
     const recommended = needsSeparation ? "Separação Total" : universalRisk ? "Comunhão Parcial" : answers.comprarJuntos === "Sim" || answers.comprarJuntos === "Já temos" || answers.uniaoEstavel === "Sim" ? "Comunhão Parcial" : "Comunhão Universal";
-    return { recommended, hasOtherKids, needsSeparation, universalRisk };
+    return { recommended, hasOtherKids, needsSeparation, universalRisk, hasProtectedAssets };
   }, [answers]);
 
   const regimes = [
