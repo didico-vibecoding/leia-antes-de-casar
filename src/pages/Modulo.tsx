@@ -2,20 +2,12 @@ import { ArrowLeft, ArrowRight, CheckCircle2, XCircle } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import GlossaryTooltip from "@/components/app/GlossaryTooltip";
+
 import ProgressBar from "@/components/app/ProgressBar";
 import { Button } from "@/components/ui/button";
 import { boxStyles, modules } from "@/data/appData";
 
-const terms = ["Regime de bens", "Meação", "Herança", "Testamento", "Bem de família", "Pacto antenupcial", "Herdeiro necessário", "Partilha"];
-
-const renderText = (text: string) => {
-  const regex = new RegExp(`(${terms.join("|")})`, "gi");
-  return text.split(regex).map((part, index) => {
-    const term = terms.find((item) => item.toLowerCase() === part.toLowerCase());
-    return term ? <GlossaryTooltip key={`${part}-${index}`} term={term} /> : <span key={`${part}-${index}`}>{part}</span>;
-  });
-};
+const renderText = (text: string) => <span>{text}</span>;
 
 const Modulo = () => {
   const { moduloId } = useParams();
