@@ -108,6 +108,12 @@ const Simulador = () => {
                 );
               })}
             </div>
+            {result.hasProtectedAssets && (
+              <div className="rounded-lg border border-primary/30 bg-primary/10 p-5 text-foreground">
+                <p className="font-bold">Proteção de patrimônio</p>
+                <p className="mt-2 text-sm">Como vocês possuem empresa, marca registrada, patente ou outros bens que desejam proteger, vale a pena considerar um pacto antenupcial ou o regime de separação de bens para resguardar esses ativos. Recomenda-se buscar orientação de um advogado de família para formalizar a melhor forma de proteção.</p>
+              </div>
+            )}
             <div className="rounded-lg border bg-card p-5 shadow-card">
               <div className="mb-6 max-w-2xl">
                 <p className="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-primary">Calculadora de bens</p>
