@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { modules } from "@/data/appData";
-import univaliDireitoLogo from "@/assets/logo-univali-direito.png.asset.json";
+import univaliDireitoLogo from "@/assets/logo-univali-ecjs.png.asset.json";
 
 const projectPillars = [
   {
