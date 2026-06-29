@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { boxStyles, modules } from "@/data/appData";
 import uniaoEstavelInfografico from "@/assets/uniao-estavel-vs-casamento.png.asset.json";
+import mudancaDeNomeInfografico from "@/assets/mudanca-de-nome.png.asset.json";
 
 const renderText = (text: string) => <span>{text}</span>;
 
