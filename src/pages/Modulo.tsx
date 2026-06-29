@@ -10,6 +10,7 @@ import { boxStyles, modules } from "@/data/appData";
 import uniaoEstavelInfografico from "@/assets/uniao-estavel-vs-casamento.png.asset.json";
 import mudancaDeNomeInfografico from "@/assets/mudanca-de-nome.png.asset.json";
 import escolhendoRegimeInfografico from "@/assets/escolhendo-regime-de-bens.png.asset.json";
+import pactoAntenupcialInfografico from "@/assets/pacto-antenupcial.png.asset.json";
 
 const renderText = (text: string) => <span>{text}</span>;
 
@@ -18,7 +19,7 @@ const Modulo = () => {
   const module = modules.find((item) => item.id === Number(moduloId));
   const [scroll, setScroll] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [openInfografico, setOpenInfografico] = useState<"uniao" | "nome" | "regime" | null>(null);
+  const [openInfografico, setOpenInfografico] = useState<"uniao" | "nome" | "regime" | "pacto" | null>(null);
 
   useEffect(() => {
     const update = () => {
@@ -131,6 +132,27 @@ const Modulo = () => {
                   </figcaption>
                 </figure>
               )}
+              {module.id === 2 && section.titulo === "Pacto antenupcial: como formalizar" && (
+                <figure className="space-y-2 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpenInfografico("pacto")}
+                    className="block w-full overflow-hidden rounded-lg border-2 transition-shadow hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    style={{ borderColor: "#005D99" }}
+                    aria-label="Abrir infográfico Pacto Antenupcial: O Guia de Bolso do Casal em tela cheia"
+                  >
+                    <img
+                      src={pactoAntenupcialInfografico.url}
+                      alt="Infográfico Pacto Antenupcial: O Guia de Bolso do Casal. Explica o que é, quando fazer, como fazer por escritura pública, o que incluir e a eficácia do pacto após o casamento."
+                      className="block h-auto w-full"
+                      loading="lazy"
+                    />
+                  </button>
+                  <figcaption className="text-center text-sm text-muted-foreground">
+                    Toque na imagem para ampliar
+                  </figcaption>
+                </figure>
+              )}
             </section>
           ))}
           <section className="rounded-lg border bg-card p-5 shadow-card">
@@ -177,10 +199,27 @@ const Modulo = () => {
             {openInfografico === "uniao" && "Infográfico União Estável vs. Casamento"}
             {openInfografico === "nome" && "Infográfico Mudança de Nome"}
             {openInfografico === "regime" && "Infográfico Escolhendo o Regime de Bens"}
+            {openInfografico === "pacto" && "Infográfico Pacto Antenupcial: O Guia de Bolso do Casal"}
           </DialogTitle>
           <img
-            src={openInfografico === "uniao" ? uniaoEstavelInfografico.url : openInfografico === "nome" ? mudancaDeNomeInfografico.url : escolhendoRegimeInfografico.url}
-            alt={openInfografico === "uniao" ? "Infográfico ampliado comparando União Estável e Casamento Civil." : openInfografico === "nome" ? "Infográfico ampliado Mudança de Nome: Um Quebra-Cabeça de Possibilidades." : "Infográfico ampliado Escolhendo o Regime de Bens: Um Checklist para o Futuro."}
+            src={
+              openInfografico === "uniao"
+                ? uniaoEstavelInfografico.url
+                : openInfografico === "nome"
+                  ? mudancaDeNomeInfografico.url
+                  : openInfografico === "regime"
+                    ? escolhendoRegimeInfografico.url
+                    : pactoAntenupcialInfografico.url
+            }
+            alt={
+              openInfografico === "uniao"
+                ? "Infográfico ampliado comparando União Estável e Casamento Civil."
+                : openInfografico === "nome"
+                  ? "Infográfico ampliado Mudança de Nome: Um Quebra-Cabeça de Possibilidades."
+                  : openInfografico === "regime"
+                    ? "Infográfico ampliado Escolhendo o Regime de Bens: Um Checklist para o Futuro."
+                    : "Infográfico ampliado Pacto Antenupcial: O Guia de Bolso do Casal."
+            }
             className="block h-auto w-full max-w-none"
           />
         </DialogContent>
