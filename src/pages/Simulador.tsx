@@ -31,7 +31,7 @@ const calculateDivision = (regime: string, values: Record<AssetKey, string>) => 
 const steps = [
   { title: "Seu perfil", questions: [{ id: "imoveis", label: "Você tem imóveis no seu nome?", options: ["Sim", "Não"] }, { id: "empresa", label: "Você é sócio de alguma empresa?", options: ["Sim", "Não"] }, { id: "dividas", label: "Você tem dívidas relevantes?", options: ["Sim", "Não"] }] },
   { title: "Filhos e família", questions: [{ id: "filhos", label: "Você tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "filhosParceiro", label: "Seu parceiro(a) tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "heranca", label: "Há herança ou bens recebidos por doação que você quer proteger?", options: ["Sim", "Não"] }] },
-  { title: "Patrimônio conjunto", questions: [{ id: "comprarJuntos", label: "Vocês pretendem comprar imóveis juntos?", options: ["Sim", "Não", "Já temos"] }, { id: "desigualdade", label: "Existe grande diferença de patrimônio entre vocês?", options: ["Sim", "Não"] }] },
+  { title: "Patrimônio conjunto", questions: [{ id: "comprarJuntos", label: "Vocês pretendem comprar imóveis juntos?", options: ["Sim", "Não", "Já temos"] }, { id: "uniaoEstavel", label: "Vocês já vivem em união estável?", options: ["Sim", "Não"] }, { id: "desigualdade", label: "Existe grande diferença de patrimônio entre vocês?", options: ["Sim", "Não"] }] },
 ];
 
 const Simulador = () => {
