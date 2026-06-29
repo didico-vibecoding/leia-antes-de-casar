@@ -127,6 +127,16 @@ const Modulo = () => {
           </div>
         </div>
       </div>
+      <Dialog open={infograficoOpen} onOpenChange={setInfograficoOpen}>
+        <DialogContent className="max-w-[98vw] max-h-[95vh] overflow-auto p-2 sm:p-4">
+          <DialogTitle className="sr-only">Infográfico União Estável vs. Casamento</DialogTitle>
+          <img
+            src={uniaoEstavelInfografico.url}
+            alt="Infográfico ampliado comparando União Estável e Casamento Civil."
+            className="block h-auto w-full max-w-none"
+          />
+        </DialogContent>
+      </Dialog>
     </article>
   );
 };
