@@ -17,7 +17,7 @@ const Modulo = () => {
   const module = modules.find((item) => item.id === Number(moduloId));
   const [scroll, setScroll] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [infograficoOpen, setInfograficoOpen] = useState(false);
+  const [openInfografico, setOpenInfografico] = useState<"uniao" | "nome" | null>(null);
 
   useEffect(() => {
     const update = () => {
@@ -57,7 +57,7 @@ const Modulo = () => {
             <figure className="space-y-2">
               <button
                 type="button"
-                onClick={() => setInfograficoOpen(true)}
+                onClick={() => setOpenInfografico("uniao")}
                 className="block w-full overflow-hidden rounded-lg border-2 transition-shadow hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 style={{ borderColor: "#005D99" }}
                 aria-label="Abrir infográfico União Estável vs. Casamento em tela cheia"
@@ -88,6 +88,27 @@ const Modulo = () => {
                   </div>
                 );
               })()}
+              {module.id === 1 && section.titulo === "Nome: escolha, não obrigação" && (
+                <figure className="space-y-2 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setOpenInfografico("nome")}
+                    className="block w-full overflow-hidden rounded-lg border-2 transition-shadow hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    style={{ borderColor: "#005D99" }}
+                    aria-label="Abrir infográfico Mudança de Nome em tela cheia"
+                  >
+                    <img
+                      src={mudancaDeNomeInfografico.url}
+                      alt="Infográfico Mudança de Nome: Um Quebra-Cabeça de Possibilidades. Apresenta princípios gerais (igualdade de direitos e caráter facultativo), possibilidades do Código Civil (adição, permuta, supressão) e como proceder antes e depois do casamento."
+                      className="block h-auto w-full"
+                      loading="lazy"
+                    />
+                  </button>
+                  <figcaption className="text-center text-sm text-muted-foreground">
+                    Toque na imagem para ampliar
+                  </figcaption>
+                </figure>
+              )}
             </section>
           ))}
           <section className="rounded-lg border bg-card p-5 shadow-card">
@@ -128,12 +149,14 @@ const Modulo = () => {
           </div>
         </div>
       </div>
-      <Dialog open={infograficoOpen} onOpenChange={setInfograficoOpen}>
+      <Dialog open={openInfografico !== null} onOpenChange={(open) => { if (!open) setOpenInfografico(null); }}>
         <DialogContent className="max-w-[98vw] max-h-[95vh] overflow-auto p-2 sm:p-4">
-          <DialogTitle className="sr-only">Infográfico União Estável vs. Casamento</DialogTitle>
+          <DialogTitle className="sr-only">
+            {openInfografico === "uniao" ? "Infográfico União Estável vs. Casamento" : "Infográfico Mudança de Nome"}
+          </DialogTitle>
           <img
-            src={uniaoEstavelInfografico.url}
-            alt="Infográfico ampliado comparando União Estável e Casamento Civil."
+            src={openInfografico === "uniao" ? uniaoEstavelInfografico.url : mudancaDeNomeInfografico.url}
+            alt={openInfografico === "uniao" ? "Infográfico ampliado comparando União Estável e Casamento Civil." : "Infográfico ampliado Mudança de Nome: Um Quebra-Cabeça de Possibilidades."}
             className="block h-auto w-full max-w-none"
           />
         </DialogContent>
