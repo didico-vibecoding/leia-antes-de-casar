@@ -33,7 +33,6 @@ const Simulador = () => {
   ];
 
   const showResult = step === 3;
-  const division = calculateDivision(selectedRegime, assetValues);
 
   return (
     <section className="section-pad">
@@ -89,39 +88,6 @@ const Simulador = () => {
                 <p className="mt-2 text-sm">Como vocês possuem empresa, marca registrada, patente ou outros bens que desejam proteger, vale a pena considerar um pacto antenupcial ou o regime de separação de bens para resguardar esses ativos. Recomenda-se buscar orientação de um advogado de família para formalizar a melhor forma de proteção.</p>
               </div>
             )}
-            <div className="rounded-lg border bg-card p-5 shadow-card">
-              <div className="mb-6 max-w-2xl">
-                <p className="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-primary">Calculadora de bens</p>
-                <h2 className="text-3xl font-bold">Simule uma divisão patrimonial aproximada.</h2>
-                <p className="mt-3 text-muted-foreground">Informe valores estimados e escolha um regime para visualizar uma divisão educativa, sem valor jurídico.</p>
-              </div>
-              <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-                <div className="space-y-4">
-                  <label className="grid gap-2 font-semibold">
-                    Regime escolhido pelo casal
-                    <select value={selectedRegime} onChange={(event) => setSelectedRegime(event.target.value)} className="rounded-md border border-input bg-background px-3 py-2 text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                      {regimes.map((regime) => <option key={regime.name}>{regime.name}</option>)}
-                    </select>
-                  </label>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {(Object.keys(assetLabels) as AssetKey[]).map((key) => (
-                      <label key={key} className="grid gap-2 text-sm font-semibold">
-                        {assetLabels[key]}
-                        <input inputMode="decimal" placeholder="Ex: 150000" value={assetValues[key]} onChange={(event) => setAssetValues((prev) => ({ ...prev, [key]: event.target.value }))} className="rounded-md border border-input bg-background px-3 py-2 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
-                      </label>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-lg bg-muted p-5">
-                  <p className="text-sm font-bold uppercase tracking-[0.18em] text-secondary">Resultado estimado</p>
-                  <div className="mt-5 space-y-4">
-                    <div><p className="text-sm text-muted-foreground">Parte aproximada de cada cônjuge</p><p className="text-3xl font-bold text-primary">{currencyFormatter.format(division.spouseShare)}</p></div>
-                    <div><p className="text-sm text-muted-foreground">Valor preservado como individual nesta simulação</p><p className="text-2xl font-bold">{currencyFormatter.format(division.protectedIndividual)}</p></div>
-                    <div><p className="text-sm text-muted-foreground">Patrimônio líquido considerado</p><p className="text-xl font-bold">{currencyFormatter.format(Math.max(division.totalConsidered, 0))}</p></div>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="sticky bottom-4 rounded-lg border bg-card p-4 shadow-soft">
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <p className="text-sm font-medium text-muted-foreground">Este simulador tem fins educativos. Consulte um advogado de família para orientação personalizada.</p>
