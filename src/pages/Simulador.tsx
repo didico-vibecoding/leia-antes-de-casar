@@ -31,7 +31,7 @@ const calculateDivision = (regime: string, values: Record<AssetKey, string>) => 
 const steps = [
   { title: "Seu perfil", questions: [{ id: "imoveis", label: "Você tem imóveis no seu nome?", options: ["Sim", "Não"] }, { id: "empresa", label: "Você é sócio de alguma empresa?", options: ["Sim", "Não"] }, { id: "dividas", label: "Você tem dívidas relevantes?", options: ["Sim", "Não"] }] },
   { title: "Filhos e família", questions: [{ id: "filhos", label: "Você tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "filhosParceiro", label: "Seu parceiro(a) tem filhos de outro relacionamento?", options: ["Sim", "Não"] }, { id: "heranca", label: "Há herança ou bens recebidos por doação que você quer proteger?", options: ["Sim", "Não"] }] },
-  { title: "Patrimônio conjunto", questions: [{ id: "comprarJuntos", label: "Vocês pretendem comprar imóveis juntos?", options: ["Sim", "Não", "Já temos"] }, { id: "uniaoEstavel", label: "Vocês já vivem em união estável?", options: ["Sim", "Não"] }, { id: "desigualdade", label: "Existe grande diferença de patrimônio entre vocês?", options: ["Sim", "Não"] }] },
+  { title: "Patrimônio conjunto", questions: [{ id: "comprarJuntos", label: "Vocês pretendem comprar imóveis juntos?", options: ["Sim", "Não", "Já temos"] }, { id: "uniaoEstavel", label: "Vocês já vivem em união estável?", options: ["Sim", "Não"] }, { id: "bensProteger", label: "Algum de vocês possui empresa, marca registrada, patente ou outros bens que deseja proteger?", options: ["Sim", "Não"] }, { id: "desigualdade", label: "Existe grande diferença de patrimônio entre vocês?", options: ["Sim", "Não"] }] },
 ];
 
 const Simulador = () => {
@@ -46,8 +46,9 @@ const Simulador = () => {
     const hasOtherKids = answers.filhos === "Sim" || answers.filhosParceiro === "Sim";
     const needsSeparation = answers.empresa === "Sim" || hasOtherKids || answers.desigualdade === "Sim";
     const universalRisk = answers.dividas === "Sim" || hasOtherKids;
+    const hasProtectedAssets = answers.bensProteger === "Sim";
     const recommended = needsSeparation ? "Separação Total" : universalRisk ? "Comunhão Parcial" : answers.comprarJuntos === "Sim" || answers.comprarJuntos === "Já temos" || answers.uniaoEstavel === "Sim" ? "Comunhão Parcial" : "Comunhão Universal";
-    return { recommended, hasOtherKids, needsSeparation, universalRisk };
+    return { recommended, hasOtherKids, needsSeparation, universalRisk, hasProtectedAssets };
   }, [answers]);
 
   const regimes = [
@@ -107,6 +108,12 @@ const Simulador = () => {
                 );
               })}
             </div>
+            {result.hasProtectedAssets && (
+              <div className="rounded-lg border border-primary/30 bg-primary/10 p-5 text-foreground">
+                <p className="font-bold">Proteção de patrimônio</p>
+                <p className="mt-2 text-sm">Como vocês possuem empresa, marca registrada, patente ou outros bens que desejam proteger, vale a pena considerar um pacto antenupcial ou o regime de separação de bens para resguardar esses ativos. Recomenda-se buscar orientação de um advogado de família para formalizar a melhor forma de proteção.</p>
+              </div>
+            )}
             <div className="rounded-lg border bg-card p-5 shadow-card">
               <div className="mb-6 max-w-2xl">
                 <p className="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-primary">Calculadora de bens</p>
