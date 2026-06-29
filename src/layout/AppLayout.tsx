@@ -8,7 +8,6 @@ const links = [
   { to: "/trilha", label: "Trilha" },
   { to: "/simulador", label: "Simulador" },
   { to: "/checklist", label: "Checklist" },
-  { to: "/glossario", label: "Glossário" },
 ];
 
 const AntesDoSimLogo = ({ className = "h-10 w-10" }: { className?: string }) => (
