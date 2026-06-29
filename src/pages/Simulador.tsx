@@ -95,8 +95,8 @@ const Simulador = () => {
                 const Icon = regime.icon;
                 const highlighted = regime.name === result.recommended;
                 return (
-                  <article key={regime.name} className={`rounded-lg border bg-card p-5 shadow-card ${highlighted ? "border-primary ring-2 ring-primary/20" : ""}`}>
-                    {highlighted && <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-bold text-primary"><CheckCircle2 className="h-4 w-4" /> Mais indicado para seu perfil</div>}
+                  <article key={regime.name} className={`rounded-lg border bg-card p-5 shadow-card ${highlighted ? "border-2 border-accent-direito ring-2 ring-accent-direito/20" : ""}`}>
+                    {highlighted && <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-accent-direito/10 px-3 py-1 text-sm font-bold text-accent-direito"><CheckCircle2 className="h-4 w-4" /> Mais indicado para seu perfil</div>}
                     <Icon className="mb-4 h-9 w-9 text-secondary" />
                     <h2 className="text-2xl font-bold">{regime.name}</h2>
                     <p className="mt-1 text-sm font-semibold text-muted-foreground">Complexidade: {regime.complexity}</p>

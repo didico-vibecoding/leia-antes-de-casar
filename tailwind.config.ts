@@ -70,6 +70,10 @@ export default {
           DEFAULT: "hsl(var(--soft))",
           foreground: "hsl(var(--soft-foreground))",
         },
+        "accent-direito": {
+          DEFAULT: "hsl(var(--accent-direito))",
+          foreground: "hsl(var(--accent-direito-foreground))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
