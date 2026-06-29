@@ -5,7 +5,9 @@ import { toast } from "sonner";
 
 import ProgressBar from "@/components/app/ProgressBar";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { boxStyles, modules } from "@/data/appData";
+import uniaoEstavelInfografico from "@/assets/uniao-estavel-vs-casamento.png.asset.json";
 
 const renderText = (text: string) => <span>{text}</span>;
 
@@ -14,6 +16,7 @@ const Modulo = () => {
   const module = modules.find((item) => item.id === Number(moduloId));
   const [scroll, setScroll] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [infograficoOpen, setInfograficoOpen] = useState(false);
 
   useEffect(() => {
     const update = () => {
@@ -49,6 +52,27 @@ const Modulo = () => {
       </header>
       <div className="section-pad">
         <div className="mx-auto max-w-[680px] space-y-10">
+          {module.id === 1 && (
+            <figure className="space-y-2">
+              <button
+                type="button"
+                onClick={() => setInfograficoOpen(true)}
+                className="block w-full overflow-hidden rounded-lg border-2 transition-shadow hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                style={{ borderColor: "#005D99" }}
+                aria-label="Abrir infográfico União Estável vs. Casamento em tela cheia"
+              >
+                <img
+                  src={uniaoEstavelInfografico.url}
+                  alt="Infográfico comparando União Estável e Casamento Civil: definição, contrato, regime de bens, estado civil e possibilidade de acrescentar sobrenome, conforme o Código Civil brasileiro."
+                  className="block h-auto w-full"
+                  loading="lazy"
+                />
+              </button>
+              <figcaption className="text-center text-sm text-muted-foreground">
+                Toque na imagem para ampliar
+              </figcaption>
+            </figure>
+          )}
           {module.sections.map((section) => (
             <section key={section.titulo} className="space-y-4">
               <h2 className="text-3xl font-bold">{section.titulo}</h2>
@@ -103,6 +127,16 @@ const Modulo = () => {
           </div>
         </div>
       </div>
+      <Dialog open={infograficoOpen} onOpenChange={setInfograficoOpen}>
+        <DialogContent className="max-w-[98vw] max-h-[95vh] overflow-auto p-2 sm:p-4">
+          <DialogTitle className="sr-only">Infográfico União Estável vs. Casamento</DialogTitle>
+          <img
+            src={uniaoEstavelInfografico.url}
+            alt="Infográfico ampliado comparando União Estável e Casamento Civil."
+            className="block h-auto w-full max-w-none"
+          />
+        </DialogContent>
+      </Dialog>
     </article>
   );
 };
