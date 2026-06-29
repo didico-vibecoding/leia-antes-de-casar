@@ -64,7 +64,7 @@ const Index = () => {
             <img
               src={univaliDireitoLogo.url}
               alt="Escola de Ciências Jurídicas e Sociais - Direito Univali"
-              className="animate-float max-h-28 w-auto max-w-[75%] object-contain motion-reduce:animate-none md:max-h-44 md:max-w-[80%]"
+              className="max-h-28 w-auto max-w-[75%] object-contain md:max-h-44 md:max-w-[80%]"
             />
           </div>
         </div>
