@@ -14,8 +14,6 @@ const steps = [
 const Simulador = () => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
-  const [selectedRegime, setSelectedRegime] = useState("Comunhão Parcial");
-  const [assetValues, setAssetValues] = useState<Record<AssetKey, string>>({ imovelAnterior: "", imovelDurante: "", investimentos: "", dividas: "" });
   const current = steps[step];
   const canAdvance = step >= steps.length || current.questions.every((q) => answers[q.id]);
 
