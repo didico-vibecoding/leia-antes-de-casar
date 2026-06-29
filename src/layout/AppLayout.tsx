@@ -11,22 +11,6 @@ const links = [
   { to: "/checklist", label: "Checklist" },
 ];
 
-const AntesDoSimLogo = ({ className = "h-10 w-10" }: { className?: string }) => (
-  <svg
-    viewBox="0 0 40 40"
-    className={cn("text-primary", className)}
-    role="img"
-    aria-label="Antes do Sim"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <circle cx="20" cy="20" r="14" fill="none" stroke="currentColor" strokeWidth="2.8" />
-    <path
-      d="M15.8 16.4c.35-3.1 2.75-5 5.6-5 3.25 0 5.55 2.05 5.55 5 0 2.25-1.15 3.45-3.05 4.7-1.65 1.1-2.25 1.95-2.25 3.55v.55h-3.05v-.8c0-2.25.9-3.55 2.8-4.85 1.65-1.1 2.25-1.85 2.25-3 0-1.4-.95-2.35-2.4-2.35-1.55 0-2.45 1-2.65 2.55l-2.8-.35Z"
-      fill="currentColor"
-    />
-    <circle cx="20.15" cy="29" r="1.65" fill="currentColor" />
-  </svg>
-);
 
 const AppLayout = () => {
   const [open, setOpen] = useState(false);
@@ -90,7 +74,7 @@ const AppLayout = () => {
       <footer className="border-t bg-soft text-soft-foreground">
         <div className="content-wrap grid gap-6 px-4 py-8 text-sm sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">
           <div className="flex justify-center md:col-span-2">
-            <AntesDoSimLogo className="h-7 w-7" />
+            <img src={univaliLogo.url} alt="Univali" className="h-7 w-auto" />
           </div>
           <p>Este aplicativo tem fins educativos e informacionais. Não substitui consultoria jurídica. Consulte sempre um advogado.</p>
           <div className="flex flex-wrap gap-4 font-medium">
