@@ -1,4 +1,4 @@
-import { HelpCircle, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -58,13 +58,6 @@ const AppLayout = () => {
                 {link.label}
               </NavLink>
             ))}
-            <a
-              href="#ajuda"
-              aria-label="Ajuda"
-              className="ml-2 hidden md:inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#005D99] text-[#005D99] transition-colors hover:bg-[#005D99] hover:text-white"
-            >
-              <HelpCircle className="h-5 w-5" />
-            </a>
           </nav>
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setOpen((value) => !value)} aria-label="Abrir menu" style={{ color: "#0C0C0E" }}>
             {open ? <X /> : <Menu />}
@@ -89,14 +82,6 @@ const AppLayout = () => {
                   {link.label}
                 </NavLink>
               ))}
-              <a
-                href="#ajuda"
-                onClick={() => setOpen(false)}
-                className="mt-2 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#005D99] text-[#005D99]"
-                aria-label="Ajuda"
-              >
-                <HelpCircle className="h-5 w-5" />
-              </a>
             </div>
           </nav>
         )}
