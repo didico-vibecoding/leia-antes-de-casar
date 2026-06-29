@@ -65,15 +65,15 @@ const Index = () => {
 
           </motion.div>
 
-          <div className="relative flex min-h-[360px] items-center justify-center">
+          <div className="relative flex min-h-[260px] items-center justify-center md:min-h-[360px]">
             <div className="absolute inset-8 rounded-full border border-primary/20 bg-card/35 blur-3xl" />
 
-            <div className="relative flex aspect-square w-full max-w-md animate-float items-center justify-center rounded-full border bg-card/70 shadow-soft backdrop-blur-sm motion-reduce:animate-none">
-              <Heart className="h-36 w-36 text-primary" strokeWidth={1.3} />
-
-              <div className="absolute left-16 top-20 h-24 w-24 rounded-full border-4 border-secondary/45" />
-
-              <div className="absolute right-16 bottom-20 h-24 w-24 rounded-full border-4 border-primary/45" />
+            <div className="relative flex aspect-square w-full max-w-[16rem] animate-float items-center justify-center rounded-full border bg-card/70 shadow-soft backdrop-blur-sm motion-reduce:animate-none md:max-w-md">
+              <img
+                src={univaliDireitoLogo.url}
+                alt="Escola de Ciências Jurídicas e Sociais - Direito Univali"
+                className="max-h-28 w-auto max-w-[75%] object-contain md:max-h-44 md:max-w-[80%]"
+              />
             </div>
           </div>
         </div>
