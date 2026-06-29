@@ -74,7 +74,7 @@ const AppLayout = () => {
       <footer className="border-t bg-soft text-soft-foreground">
         <div className="content-wrap grid gap-6 px-4 py-8 text-sm sm:px-6 md:grid-cols-[1fr_auto] lg:px-8">
           <div className="flex justify-center md:col-span-2">
-            <AntesDoSimLogo className="h-7 w-7" />
+            <img src={univaliLogo.url} alt="Univali" className="h-7 w-auto" />
           </div>
           <p>Este aplicativo tem fins educativos e informacionais. Não substitui consultoria jurídica. Consulte sempre um advogado.</p>
           <div className="flex flex-wrap gap-4 font-medium">
