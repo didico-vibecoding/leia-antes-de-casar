@@ -77,8 +77,8 @@ const AppLayout = () => {
             <img src={univaliLogo.url} alt="Univali" className="h-7 w-auto" />
           </div>
           <p>Este site é fruto de um Projeto de Extensão da disciplina de Direito Civil - Família, da Univali, Câmpus Kobrasol. O projeto tem somente fins educativos e informacionais. Não substitui consultoria jurídica. Consulte sempre um advogado.</p>
-          <div className="flex flex-wrap gap-4 font-medium">
-            {links.map((link) => <Link key={link.to} to={link.to} className="hover:text-primary">{link.label}</Link>)}
+          <div className="flex flex-wrap items-center gap-2 rounded-xl bg-white px-4 py-3 shadow-sm border border-border font-medium">
+            {links.map((link) => <Link key={link.to} to={link.to} className="text-foreground hover:text-primary">{link.label}</Link>)}
           </div>
         </div>
       </footer>
